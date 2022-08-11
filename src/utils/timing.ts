@@ -1,6 +1,6 @@
 import load from "./load";
 import { saveToStorage } from "./save";
-import { TimingData, TimingConfig, exportTimingData } from "../types/timing";
+import { TimeConfig, exportTimingData, exportPerformaceData } from "../types/timing";
 
 /**
  * 储存页面加载的数据
@@ -19,6 +19,8 @@ function saveTiming() {
     domContentLoadedEventStart,
     domContentLoadedEventEnd,
     loadEventStart,
+    domainLookupStart,
+    domainLookupEnd,
   } = performance.timing;
   const exportData: exportTimingData = {
     event: 'timing',
@@ -27,13 +29,23 @@ function saveTiming() {
       connectTime: connectEnd - connectStart,
       ttfbTime: responseStart - fetchStart,
       responseTime: responseEnd - responseStart,
-      parseDOMTime: domLoading - requestStart,
-      domContentLoadedTime: domContentLoadedEventEnd - domContentLoadedEventStart,
-      timeToInteractive: domInteractive - domLoading,
+      parseDOMTime: domInteractive - responseEnd,
+      domContentLoadedTime: domContentLoadedEventEnd - domContentLoadedEventStart, // domContentLoadedEventEnd – fetchStart
       loadTime: loadEventStart - fetchStart,
+      parseDNSTime: domainLookupEnd - domainLookupStart,
+      domReadyTime: domContentLoadedEventStart - fetchStart,
     }
   }
-  saveToStorage(exportData, TimingConfig.storageKey)
+  const exportPerformaceData: exportPerformaceData = {
+    event: 'performace',
+    targetKey: 'performace',
+    data: {
+      firstPaint: responseEnd - fetchStart,
+      timeToInteractive: domInteractive - domLoading,
+    }
+  }
+  saveToStorage(exportData, TimeConfig.TimingKey)
+  saveToStorage(exportPerformaceData, TimeConfig.PerformanceKey)
 }
 
 /**

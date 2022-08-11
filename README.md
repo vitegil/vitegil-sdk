@@ -1,5 +1,17 @@
 # Vitegil Tracker-SDK
 
+## 工具使用
+
+### 安装
+
+```bash
+pnpm install snq-tracker
+```
+
+### 引入项目
+
+
+
 ## 功能介绍
 
 ### 获取页面加载时间
