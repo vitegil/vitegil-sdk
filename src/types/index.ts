@@ -9,20 +9,20 @@
  * @jsError js 和 promise 报错异常上报
  * @lazyReport 懒上报
  */
-export interface DefaultOptons {
-  uuid: string | undefined,
-  requestUrl: string | undefined,
-  historyTracker: boolean,
-  hashTracker: boolean,
-  domTracker: boolean,
-  sdkVersion: string | number,
-  extra: Record<string, any> | undefined,
-  jsError:boolean,
-  lazyReport: boolean | undefined,
-  timeTracker: boolean,
+export interface DefaultOptions {
+  uuid: string | undefined
+  requestUrl: string | undefined
+  historyTracker: boolean
+  hashTracker: boolean
+  domTracker: boolean
+  sdkVersion: string | number
+  extra: Record<string, any> | undefined
+  jsError: boolean
+  lazyReport: boolean | undefined
+  timeTracker: boolean
 }
 
-export interface Options extends Partial<DefaultOptons> {
+export interface Options extends Partial<DefaultOptions> {
   requestUrl: string
 }
 
@@ -32,11 +32,11 @@ export enum TrackerConfig {
 }
 
 // remove 'mousemove' error
-export const MouseEventList: string[] = ['click', 'dblclick', 'contextmenu', 'mousedown', 'mouseup', 'mouseover', 'mouseout'];
+export const MouseEventList: string[] = ['click', 'dblclick', 'contextmenu', 'mousedown', 'mouseup', 'mouseover', 'mouseout']
 
 // 上报必传参数
-export type reportTrackerData = {
-  [key: string]: any,
-  event: string,
+export interface reportTrackerData {
+  [key: string]: any
+  event: string
   targetKey: string
 }

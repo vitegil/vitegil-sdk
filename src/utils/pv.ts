@@ -3,8 +3,8 @@
 export const createHistoryEvent = <T extends keyof History>(type: T) => {
   const origin = history[type]
 
-  return function (this: any) {
-    const res = origin.apply(this, arguments)
+  return function (this: any, ...args: any[]) {
+    const res = origin.apply(this, args)
     // 注册事件，使得addEventListener能够监听该事件
     const e = new Event(type)
     window.dispatchEvent(e)

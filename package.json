@@ -2,13 +2,8 @@
   "name": "snq-tracker",
   "version": "1.0.3",
   "description": "An easy web monitor tool based on rollup",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "browser": "dist/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
-  },
+  "author": "SaraiNoQ",
+  "license": "ISC",
   "keywords": [
     "rollup",
     "web",
@@ -17,11 +12,21 @@
     "埋点",
     "tracker"
   ],
-  "author": "SaraiNoQ",
-  "files": ["dist"],
-  "license": "ISC",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "devDependencies": {
-    "rollup": "^2.77.2",
+    "@antfu/eslint-config": "^0.26.1",
+    "eslint": "^8.21.0",
+    "rollup": "^2.77.3",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-typescript2": "^0.32.1",
     "typescript": "^4.7.4"

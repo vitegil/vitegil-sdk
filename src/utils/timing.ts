@@ -1,6 +1,7 @@
-import load from "./load";
-import { saveToStorage } from "./save";
-import { TimeConfig, exportTimingData, exportPerformaceData } from "../types/timing";
+import type { exportPerformaceData, exportTimingData } from '../types/timing'
+import { TimeConfig } from '../types/timing'
+import load from './load'
+import { saveToStorage } from './save'
 
 /**
  * 储存页面加载的数据
@@ -11,7 +12,7 @@ function saveTiming() {
     fetchStart,
     connectStart,
     connectEnd,
-    requestStart,
+    // requestStart,
     responseStart,
     responseEnd,
     domLoading,
@@ -21,7 +22,7 @@ function saveTiming() {
     loadEventStart,
     domainLookupStart,
     domainLookupEnd,
-  } = performance.timing;
+  } = performance.timing
   const exportData: exportTimingData = {
     event: 'timing',
     targetKey: 'timing',
@@ -34,7 +35,7 @@ function saveTiming() {
       loadTime: loadEventStart - fetchStart,
       parseDNSTime: domainLookupEnd - domainLookupStart,
       domReadyTime: domContentLoadedEventStart - fetchStart,
-    }
+    },
   }
   const exportPerformaceData: exportPerformaceData = {
     event: 'performace',
@@ -42,7 +43,7 @@ function saveTiming() {
     data: {
       firstPaint: responseEnd - fetchStart,
       timeToInteractive: domInteractive - domLoading,
-    }
+    },
   }
   saveToStorage(exportData, TimeConfig.TimingKey)
   saveToStorage(exportPerformaceData, TimeConfig.PerformanceKey)

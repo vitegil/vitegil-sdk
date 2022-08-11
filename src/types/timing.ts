@@ -1,8 +1,8 @@
-import { reportTrackerData } from "./index";
+import type { reportTrackerData } from './index'
 
 /**
  * @connectTime TCP连接耗时
- * @ttfbTime ttfb时间:发出页面请求到接收到应答数据第一个字节所花费的毫秒数
+ * @ttfbTime 首字节时间:发出页面请求到接收到应答数据第一个字节所花费的毫秒数
  * @responseTime 响应时间
  * @parseDOMTime 解析DOM时间
  * @domContentLoadedTime DOMContentLoaded事件时间
@@ -11,14 +11,14 @@ import { reportTrackerData } from "./index";
  * @domReadyTime DOM准备总时间
  */
 export interface TimingData {
-  connectTime: number | undefined,
-  ttfbTime: number | undefined,
-  responseTime: number | undefined,
-  parseDOMTime: number | undefined,
-  domContentLoadedTime: number | undefined,
-  loadTime: number | undefined,
-  parseDNSTime: number | undefined,
-  domReadyTime: number | undefined,
+  connectTime: number | undefined
+  ttfbTime: number | undefined
+  responseTime: number | undefined
+  parseDOMTime: number | undefined
+  domContentLoadedTime: number | undefined
+  loadTime: number | undefined
+  parseDNSTime: number | undefined
+  domReadyTime: number | undefined
 }
 
 /**
@@ -26,21 +26,21 @@ export interface TimingData {
  * @timeToInteractive 首次可交互时间
  */
 export interface PerformaceData {
-  firstPaint: number | undefined,
-  firstContentfulPaint?: number | undefined,
-  largestContentfulPaint?: number | undefined,
-  timeToInteractive: number | undefined,
+  firstPaint: number | undefined
+  firstContentfulPaint?: number | undefined
+  largestContentfulPaint?: number | undefined
+  timeToInteractive: number | undefined
 }
 
 export enum TimeConfig {
-  TimingKey= 'timing',
+  TimingKey = 'timing',
   PerformanceKey = 'performance',
 }
 
 export interface exportTimingData extends reportTrackerData {
-  data: TimingData,
+  data: TimingData
 }
 
 export interface exportPerformaceData extends reportTrackerData {
-  data: PerformaceData,
+  data: PerformaceData
 }

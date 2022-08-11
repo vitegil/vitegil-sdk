@@ -1,20 +1,21 @@
-import { DefaultOptons, Options, TrackerConfig, MouseEventList, reportTrackerData } from "../types/index";
-import { createHistoryEvent } from "../utils/pv";
-import { timing } from "../utils/timing";
+import type { DefaultOptions, Options, reportTrackerData } from '../types/index'
+import { MouseEventList, TrackerConfig } from '../types/index'
+import { createHistoryEvent } from '../utils/pv'
+import { timing } from '../utils/timing'
 
 export default class Tracker {
-  public data: Options;
+  public data: Options
 
-  constructor (options: Options) {
+  constructor(options: Options) {
     this.data = Object.assign(this.initDef(), options)
     this.installTracker()
   }
 
-  private initDef(): DefaultOptons {
-    window.history['pushState'] = createHistoryEvent('pushState')
-    window.history['replaceState'] = createHistoryEvent('replaceState')
+  private initDef(): DefaultOptions {
+    window.history.pushState = createHistoryEvent('pushState')
+    window.history.replaceState = createHistoryEvent('replaceState')
     // window.history['back'] = createHistoryEvent('back')
-    return <DefaultOptons>{
+    return <DefaultOptions>{
       sdkVersion: TrackerConfig.version,
       historyTracker: false,
       hashTracker: false,
@@ -25,11 +26,11 @@ export default class Tracker {
     }
   }
 
-  public setUserId <T extends DefaultOptons['uuid']>(id: T): void {
+  public setUserId <T extends DefaultOptions['uuid']>(id: T): void {
     this.data.uuid = id
   }
 
-  public setExtra <T extends DefaultOptons['extra']>(extra: T): void {
+  public setExtra <T extends DefaultOptions['extra']>(extra: T): void {
     this.data.extra = extra
   }
 
@@ -48,10 +49,12 @@ export default class Tracker {
         let arr: reportTrackerData[] = JSON.parse(trackerData)
         arr = [...arr, data]
         localStorage.setItem('tracker', JSON.stringify(arr))
-      } catch (error) {
+      }
+      catch (error) {
         console.error('sdk saveTracker error!', error)
       }
-    } else {
+    }
+    else {
       localStorage.setItem('tracker', JSON.stringify([data]))
     }
   }
@@ -59,26 +62,27 @@ export default class Tracker {
   /**
    * 上报信息到后台
    */
-   private reportTracker <T>(data: T) {
+  private reportTracker <T>(data: T) {
     const params = Object.assign(this.data, data, { time: new Date().getTime() })
-    let headers = {
-      type: 'application/x-www-form-urlencoded'
+    const headers = {
+      type: 'application/x-www-form-urlencoded',
     }
-    let blob = new Blob([JSON.stringify(params)], headers)
+    const blob = new Blob([JSON.stringify(params)], headers)
     navigator.sendBeacon(this.data.requestUrl, blob)
   }
 
   /**
    * 上报不带构造对象的信息
    */
-  private reportTrackerWithoutConstructor (data: string): void {
+  private reportTrackerWithoutConstructor(data: string): void {
     try {
-      let headers = {
-        type: 'application/x-www-form-urlencoded'
+      const headers = {
+        type: 'application/x-www-form-urlencoded',
       }
-      let blob = new Blob([data], headers)
+      const blob = new Blob([data], headers)
       navigator.sendBeacon(this.data.requestUrl, blob)
-    } catch (error) {
+    }
+    catch (error) {
       console.error('sdk reportTrackerData error!', error)
     }
   }
@@ -86,7 +90,7 @@ export default class Tracker {
   /**
    * 关闭页面前，上报所有信息到后台
    */
-  private reportTrackerArray (): void {
+  private reportTrackerArray(): void {
     const trackerData = localStorage.getItem('tracker') || undefined
     if (trackerData) {
       this.reportTrackerWithoutConstructor(trackerData)
@@ -102,9 +106,9 @@ export default class Tracker {
   /**
    * 上报DOM点击事件
    */
-  private reportDomTracker (): void {
-    MouseEventList.forEach(event => {
-      window.addEventListener(event, e => {
+  private reportDomTracker(): void {
+    MouseEventList.forEach((event) => {
+      window.addEventListener(event, (e) => {
         const target = e.target as HTMLElement
         const targetKey = target.getAttribute('data-tracker-key')
         if (targetKey) {
@@ -114,8 +118,8 @@ export default class Tracker {
               targetKey,
               clickData: {
                 x: (e as MouseEvent).clientX,
-                y: (e as MouseEvent).clientY
-              }
+                y: (e as MouseEvent).clientY,
+              },
             })
             return
           }
@@ -124,8 +128,8 @@ export default class Tracker {
             targetKey,
             clickData: {
               x: (e as MouseEvent).clientX,
-              y: (e as MouseEvent).clientY
-            }
+              y: (e as MouseEvent).clientY,
+            },
           })
         }
       })
@@ -135,7 +139,7 @@ export default class Tracker {
   /**
    * js错误
    */
-  private jsError (): void {
+  private jsError(): void {
     this.jsErrorEvent()
     this.promiseErrorEvent()
   }
@@ -144,7 +148,7 @@ export default class Tracker {
    * 捕获js错误
    */
   private jsErrorEvent(): void {
-    window.addEventListener('error', e => {
+    window.addEventListener('error', (e) => {
       if (this.data.lazyReport) {
         this.saveTracker({
           event: 'js-error',
@@ -153,8 +157,8 @@ export default class Tracker {
             message: e.message,
             filename: e.filename,
             lineno: e.lineno,
-            colno: e.colno
-          }
+            colno: e.colno,
+          },
         })
         return
       }
@@ -165,8 +169,8 @@ export default class Tracker {
           message: e.message,
           filename: e.filename,
           lineno: e.lineno,
-          colno: e.colno
-        }
+          colno: e.colno,
+        },
       })
     })
   }
@@ -174,9 +178,9 @@ export default class Tracker {
   /**
    * 捕获Promise错误
    */
-  private promiseErrorEvent (): void {
-    window.addEventListener('unhandledrejection', e => {
-      e.promise.catch(err => {
+  private promiseErrorEvent(): void {
+    window.addEventListener('unhandledrejection', (e) => {
+      e.promise.catch((err) => {
         if (this.data.lazyReport) {
           this.saveTracker({
             event: 'promise-error',
@@ -184,8 +188,8 @@ export default class Tracker {
             data: {
               message: e.reason.message,
               filename: e.reason.stack.split('\n')[0],
-              err: err
-            }
+              err,
+            },
           })
           return
         }
@@ -195,8 +199,8 @@ export default class Tracker {
           data: {
             message: e.reason.message,
             filename: e.reason.stack.split('\n')[0],
-            err: err
-          }
+            err,
+          },
         })
       })
     })
@@ -205,8 +209,8 @@ export default class Tracker {
   /**
    * 页面关闭监听器
    */
-  private unloadTracker (): void {
-    window.addEventListener('beforeunload', e => {
+  private unloadTracker(): void {
+    window.addEventListener('beforeunload', () => {
       this.reportTrackerArray()
     })
   }
@@ -218,21 +222,20 @@ export default class Tracker {
    * @param data 其他数据
    */
   private captureEvents <T>(mouseEventList: string[], targetKey: string, data?: T): void {
-    mouseEventList.forEach(event => {
+    mouseEventList.forEach((event) => {
       window.addEventListener(event, () => {
-        console.log('监听到事件:', event)
         if (this.data.lazyReport) {
           this.saveTracker({
             event,
             targetKey,
-            data
+            data,
           })
           return
         }
         this.sendTracker({
           event,
           targetKey,
-          data
+          data,
         })
       })
     })
@@ -241,24 +244,23 @@ export default class Tracker {
   /**
    * 安装监听器
    */
-  private installTracker (): void {
-    if (this.data.historyTracker) {
+  private installTracker(): void {
+    if (this.data.historyTracker)
       this.captureEvents(['pushState', 'replaceState', 'popstate'], 'history-pv')
-    }
-    if (this.data.hashTracker) {
+
+    if (this.data.hashTracker)
       this.captureEvents(['hashchange'], 'hash-pv')
-    }
-    if (this.data.domTracker) {
+
+    if (this.data.domTracker)
       this.reportDomTracker()
-    }
-    if (this.data.jsError) {
+
+    if (this.data.jsError)
       this.jsError()
-    }
-    if (this.data.lazyReport) {
+
+    if (this.data.lazyReport)
       this.unloadTracker()
-    }
-    if (this.data.timeTracker && this.data.lazyReport) {
+
+    if (this.data.timeTracker && this.data.lazyReport)
       timing()
-    }
   }
 }
