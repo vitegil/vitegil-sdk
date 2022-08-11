@@ -1,5 +1,6 @@
 import { DefaultOptons, Options, TrackerConfig, MouseEventList, reportTrackerData } from "../types/index";
 import { createHistoryEvent } from "../utils/pv";
+import { timing } from "../utils/timing";
 
 export default class Tracker {
   public data: Options;
@@ -20,6 +21,7 @@ export default class Tracker {
       domTracker: false,
       jsError: false,
       lazyReport: false,
+      timeTracker: false,
     }
   }
 
@@ -67,22 +69,33 @@ export default class Tracker {
   }
 
   /**
+   * 上报不带构造对象的信息
+   */
+  private reportTrackerWithoutConstructor (data: string): void {
+    try {
+      let headers = {
+        type: 'application/x-www-form-urlencoded'
+      }
+      let blob = new Blob([data], headers)
+      navigator.sendBeacon(this.data.requestUrl, blob)
+    } catch (error) {
+      console.error('sdk reportTrackerData error!', error)
+    }
+  }
+
+  /**
    * 关闭页面前，上报所有信息到后台
    */
   private reportTrackerArray (): void {
     const trackerData = localStorage.getItem('tracker') || undefined
     if (trackerData) {
-      try {
-        let headers = {
-          type: 'application/x-www-form-urlencoded'
-        }
-        let blob = new Blob([trackerData], headers)
-        navigator.sendBeacon(this.data.requestUrl, blob)
-      } catch (error) {
-        console.error('sdk reportTrackerArray error!', error)
-      } finally {
-        localStorage.removeItem('tracker')
-      }
+      this.reportTrackerWithoutConstructor(trackerData)
+      localStorage.removeItem('tracker')
+    }
+    const timingData = localStorage.getItem('timing') || undefined
+    if (timingData) {
+      this.reportTrackerWithoutConstructor(timingData)
+      localStorage.removeItem('timing')
     }
   }
 
@@ -243,6 +256,9 @@ export default class Tracker {
     }
     if (this.data.lazyReport) {
       this.unloadTracker()
+    }
+    if (this.data.timeTracker && this.data.lazyReport) {
+      timing()
     }
   }
 }

@@ -18,7 +18,8 @@ export interface DefaultOptons {
   sdkVersion: string | number,
   extra: Record<string, any> | undefined,
   jsError:boolean,
-  lazyReport: boolean | undefined
+  lazyReport: boolean | undefined,
+  timeTracker: boolean,
 }
 
 export interface Options extends Partial<DefaultOptons> {
@@ -26,7 +27,8 @@ export interface Options extends Partial<DefaultOptons> {
 }
 
 export enum TrackerConfig {
-  version = '1.0.0'
+  version = '1.0.0',
+  requestUrl = 'https://koa-template-382-4-1312741325.sh.run.tcloudbase.com/api/test',
 }
 
 // remove 'mousemove' error
