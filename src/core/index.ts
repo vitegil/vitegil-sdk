@@ -26,11 +26,11 @@ export default class Tracker {
     }
   }
 
-  public setUserId <T extends DefaultOptions['uuid']>(id: T): void {
+  public setUserId<T extends DefaultOptions['uuid']>(id: T): void {
     this.data.uuid = id
   }
 
-  public setExtra <T extends DefaultOptions['extra']>(extra: T): void {
+  public setExtra<T extends DefaultOptions['extra']>(extra: T): void {
     this.data.extra = extra
   }
 
@@ -38,11 +38,11 @@ export default class Tracker {
    * 手动上报信息
    * @type reportTrackerData 上传数据类型
    */
-  public sendTracker <T extends reportTrackerData>(data: T) {
+  public sendTracker<T extends reportTrackerData>(data: T) {
     this.reportTracker(data)
   }
 
-  private saveTracker <T extends reportTrackerData>(data: T): void {
+  private saveTracker<T extends reportTrackerData>(data: T): void {
     const trackerData = localStorage.getItem('tracker') || undefined
     if (trackerData) {
       try {
@@ -62,7 +62,7 @@ export default class Tracker {
   /**
    * 上报信息到后台
    */
-  private reportTracker <T>(data: T) {
+  private reportTracker<T>(data: T) {
     const params = Object.assign(this.data, data, { time: new Date().getTime() })
     const headers = {
       type: 'application/x-www-form-urlencoded',
@@ -221,7 +221,7 @@ export default class Tracker {
    * @param targetKey 后台枚举值
    * @param data 其他数据
    */
-  private captureEvents <T>(mouseEventList: string[], targetKey: string, data?: T): void {
+  private captureEvents<T>(mouseEventList: string[], targetKey: string, data?: T): void {
     mouseEventList.forEach((event) => {
       window.addEventListener(event, () => {
         if (this.data.lazyReport) {

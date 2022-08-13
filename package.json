@@ -21,13 +21,16 @@
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "serve": "rollup -c -w"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.1",
     "eslint": "^8.21.0",
     "rollup": "^2.77.3",
     "rollup-plugin-dts": "^4.2.2",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-serve": "^2.0.1",
     "rollup-plugin-typescript2": "^0.32.1",
     "typescript": "^4.7.4"
   }
