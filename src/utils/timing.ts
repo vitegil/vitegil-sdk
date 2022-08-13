@@ -6,7 +6,7 @@ import { saveToStorage } from './save'
 /**
  * 储存页面加载的数据
  */
-function saveTiming() {
+async function saveTiming(firstContentfulPaint?: number, largestContentfulPaint?: number) {
   // performance.timing: PerformanceTiming 兼容至 IE9
   const {
     fetchStart,
@@ -43,6 +43,8 @@ function saveTiming() {
     data: {
       firstPaint: responseEnd - fetchStart,
       timeToInteractive: domInteractive - domLoading,
+      firstContentfulPaint,
+      largestContentfulPaint,
     },
   }
   saveToStorage(exportData, TimeConfig.TimingKey)
@@ -53,10 +55,20 @@ function saveTiming() {
  * 上报页面加载时间
  */
 export function timing() {
+  let firstContentfulPaint: Number
+  let largestContentfulPaint: Number
+  new PerformanceObserver((entryList) => {
+    const entry = entryList.getEntriesByName('first-contentful-paint')
+    firstContentfulPaint = Math.round(entry[0].startTime)
+  }).observe({ type: 'paint', buffered: true })
+  new PerformanceObserver((entryList) => {
+    const entries = entryList.getEntries()
+    const entry = entries[entries.length - 1]
+    largestContentfulPaint = Math.round(entry.startTime)
+  }).observe({ type: 'largest-contentful-paint', buffered: true })
+
   load(() => {
     // 延迟调用
-    setTimeout(() => {
-      saveTiming()
-    }, 2500)
+    setTimeout(saveTiming, 2500, firstContentfulPaint, largestContentfulPaint)
   })
 }
