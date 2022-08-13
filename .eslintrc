@@ -1,3 +1,7 @@
 {
-  "extends": "@antfu"
+  "extends": "@antfu",
+  "rules": {
+    // 可以出现console
+    "no-console": "off"
+  }
 }

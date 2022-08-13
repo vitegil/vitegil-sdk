@@ -32,6 +32,7 @@ async function saveTiming(firstContentfulPaint?: number, largestContentfulPaint?
       responseTime: responseEnd - responseStart,
       parseDOMTime: domInteractive - responseEnd,
       domContentLoadedTime: domContentLoadedEventEnd - domContentLoadedEventStart, // domContentLoadedEventEnd – fetchStart
+      domContentLoaded: domContentLoadedEventEnd - fetchStart,
       loadTime: loadEventStart - fetchStart,
       parseDNSTime: domainLookupEnd - domainLookupStart,
       domReadyTime: domContentLoadedEventStart - fetchStart,
@@ -41,7 +42,7 @@ async function saveTiming(firstContentfulPaint?: number, largestContentfulPaint?
     event: 'performance',
     targetKey: 'performance',
     data: {
-      firstPaint: responseEnd - fetchStart,
+      firstPaint: Number(performance.getEntriesByName('first-paint')[0].startTime.toFixed(0)) || responseEnd - fetchStart,
       timeToInteractive: domInteractive - domLoading,
       firstContentfulPaint,
       largestContentfulPaint,
