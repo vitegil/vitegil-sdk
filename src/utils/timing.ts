@@ -1,4 +1,4 @@
-import type { exportPerformaceData, exportTimingData } from '../types/timing'
+import type { exportPerformanceData, exportTimingData } from '../types/timing'
 import { TimeConfig } from '../types/timing'
 import load from './load'
 import { saveToStorage } from './save'
@@ -37,9 +37,9 @@ async function saveTiming(firstContentfulPaint?: number, largestContentfulPaint?
       domReadyTime: domContentLoadedEventStart - fetchStart,
     },
   }
-  const exportPerformaceData: exportPerformaceData = {
-    event: 'performace',
-    targetKey: 'performace',
+  const exportPerformanceData: exportPerformanceData = {
+    event: 'performance',
+    targetKey: 'performance',
     data: {
       firstPaint: responseEnd - fetchStart,
       timeToInteractive: domInteractive - domLoading,
@@ -48,7 +48,7 @@ async function saveTiming(firstContentfulPaint?: number, largestContentfulPaint?
     },
   }
   saveToStorage(exportData, TimeConfig.TimingKey)
-  saveToStorage(exportPerformaceData, TimeConfig.PerformanceKey)
+  saveToStorage(exportPerformanceData, TimeConfig.PerformanceKey)
 }
 
 /**

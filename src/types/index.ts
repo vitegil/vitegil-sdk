@@ -1,5 +1,5 @@
 /**
- * @uuid uv
+ * @uuid 用户id
  * @requestUrl 接口地址
  * @historyTracker history上报
  * @hashTracker hash上报
@@ -22,6 +22,7 @@ export interface DefaultOptions {
   timeTracker: boolean
 }
 
+// requestUrl是Options必传的参数
 export interface Options extends Partial<DefaultOptions> {
   requestUrl: string
 }

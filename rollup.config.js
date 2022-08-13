@@ -2,8 +2,8 @@ import path from 'path'
 import ts from 'rollup-plugin-typescript2'
 import dts from 'rollup-plugin-dts'
 
-import serve from 'rollup-plugin-serve';
-import livereload from 'rollup-plugin-livereload';
+import serve from 'rollup-plugin-serve'
+import livereload from 'rollup-plugin-livereload'
 
 export default [
   {
@@ -33,8 +33,8 @@ export default [
         open: true, // 自动打开页面
         port: 8000,
         openPage: '/index.html', // 打开的页面
-        contentBase: ''
-      })
+        contentBase: '',
+      }),
     ],
   },
   {

@@ -1,5 +1,5 @@
-import type { exportPerformaceData, exportTimingData } from '../types/timing'
+import type { exportPerformanceData, exportTimingData } from '../types/timing'
 
-export function saveToStorage(data: exportTimingData | exportPerformaceData, key: string) {
+export function saveToStorage(data: exportTimingData | exportPerformanceData, key: string) {
   localStorage.setItem(key, JSON.stringify(data))
 }
