@@ -2,6 +2,7 @@ import type { DefaultOptions, Options, reportTrackerData } from '../types/index'
 import { MouseEventList, TrackerConfig } from '../types/index'
 import { createHistoryEvent } from '../utils/pv'
 import { timing } from '../utils/timing'
+import FMPTiming from '../lib/fmp'
 
 export default class Tracker {
   public data: Options
@@ -255,6 +256,10 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
+    // 打印页面FMP
+    // eslint-disable-next-line no-new
+    new FMPTiming()
+
     if (this.data.historyTracker)
       this.captureEvents(['pushState', 'replaceState', 'popstate'], 'history-pv')
 
