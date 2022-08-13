@@ -112,6 +112,11 @@ export default class Tracker {
       this.reportTrackerWithoutConstructor(timingData)
       localStorage.removeItem('timing')
     }
+    const performaceData = localStorage.getItem('performace') || undefined
+    if (performaceData) {
+      this.reportTrackerWithoutConstructor(performaceData)
+      localStorage.removeItem('performace')
+    }
   }
 
   /**

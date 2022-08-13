@@ -1,3 +1,5 @@
+import { saveToStorage } from '../utils/save'
+
 const Utils = {
   getStyle(element: any, attr: any) {
     if (window.getComputedStyle)
@@ -148,6 +150,7 @@ class FMPTiming {
         const resultEls: FMP.Els = this.filterResult(tp.els)
         console.log('最终节点集合', tp, resultEls)
         const fmpTiming: number = this.getFmpTime(resultEls)
+        saveToStorage({ firstMeaningfulPaint: fmpTiming }, 'performance')
         console.log('最终 FMP', fmpTiming)
         if (this.fmpCallback) {
           this.fmpCallback({
