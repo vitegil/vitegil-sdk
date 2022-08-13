@@ -25,7 +25,7 @@ export interface TimingData {
  * @firstPaint 页面首次渲染时间，即白屏时间
  * @timeToInteractive 首次可交互时间
  */
-export interface PerformaceData {
+export interface PerformanceData {
   firstPaint: number | undefined
   firstContentfulPaint?: number | undefined
   largestContentfulPaint?: number | undefined
@@ -41,6 +41,6 @@ export interface exportTimingData extends reportTrackerData {
   data: TimingData
 }
 
-export interface exportPerformaceData extends reportTrackerData {
-  data: PerformaceData
+export interface exportPerformanceData extends reportTrackerData {
+  data: PerformanceData
 }

@@ -12,9 +12,14 @@ export default class Tracker {
   }
 
   private initDef(): DefaultOptions {
+    // pushState() will change the URL, and keep the old one in the browser history
+    // (ie. pressing the back button will take you back)
     window.history.pushState = createHistoryEvent('pushState')
+
+    // replaceState() will change the URL in the browser
+    // (ie. pressing the back button won't take you back)
     window.history.replaceState = createHistoryEvent('replaceState')
-    // window.history['back'] = createHistoryEvent('back')
+
     return <DefaultOptions>{
       sdkVersion: TrackerConfig.version,
       historyTracker: false,
@@ -26,10 +31,12 @@ export default class Tracker {
     }
   }
 
+  // 用户自定义添加id
   public setUserId<T extends DefaultOptions['uuid']>(id: T): void {
     this.data.uuid = id
   }
 
+  // 用户自定义添加参数
   public setExtra<T extends DefaultOptions['extra']>(extra: T): void {
     this.data.extra = extra
   }
@@ -68,6 +75,9 @@ export default class Tracker {
       type: 'application/x-www-form-urlencoded',
     }
     const blob = new Blob([JSON.stringify(params)], headers)
+
+    // 即使页面关闭了，sendBeacon也会完成请求（XMLHttpRequest不一定）
+    // 由于data参数不支持JSON格式，这里使用Blob传数据
     navigator.sendBeacon(this.data.requestUrl, blob)
   }
 
@@ -123,7 +133,7 @@ export default class Tracker {
             })
             return
           }
-          this.sendTracker({
+          this.reportTracker({
             event,
             targetKey,
             clickData: {
@@ -162,7 +172,7 @@ export default class Tracker {
         })
         return
       }
-      this.sendTracker({
+      this.reportTracker({
         event: 'js-error',
         targetKey: 'js-error',
         data: {
@@ -193,7 +203,7 @@ export default class Tracker {
           })
           return
         }
-        this.sendTracker({
+        this.reportTracker({
           event: 'promise-error',
           targetKey: 'promise-error',
           data: {
@@ -232,7 +242,7 @@ export default class Tracker {
           })
           return
         }
-        this.sendTracker({
+        this.reportTracker({
           event,
           targetKey,
           data,
