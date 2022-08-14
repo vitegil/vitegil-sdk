@@ -21,7 +21,7 @@ export default [
       {
         file: path.resolve(__dirname, './dist/index.js'),
         format: 'umd',
-        name: 'tracker',
+        name: 'Tracker',
       },
     ],
     plugins: [
