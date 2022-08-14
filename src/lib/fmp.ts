@@ -1,3 +1,9 @@
+/**
+* A utility library that helps calculate FMP (First Meaning Paint).
+* This was adapted from a post from CaelumTian on 20191022 to his
+* blog here:
+* https://caelumtian.github.io/
+*/
 import { saveToStorage } from '../utils/save'
 
 const Utils = {
@@ -47,7 +53,7 @@ declare namespace FMP {
   }>
 }
 
-class FMPTiming {
+export default class FMPTiming {
   // 用来保存每次节点变动的时间
   private statusCollector: Array<{ time: number }> = []
   private flag = true
@@ -60,7 +66,7 @@ class FMPTiming {
     if (fmpCallback)
       this.fmpCallback = fmpCallback
 
-    this.initOberver()
+    this.initObserver()
   }
 
   private getFirstSnapShot(): void {
@@ -74,7 +80,7 @@ class FMPTiming {
     })
   }
 
-  private initOberver() {
+  private initObserver() {
     // 首次记录
     this.getFirstSnapShot()
     this.observer = new MutationObserver(() => {
@@ -151,7 +157,6 @@ class FMPTiming {
         console.log('最终节点集合', tp, resultEls)
         const fmpTiming: number = this.getFmpTime(resultEls)
         saveToStorage({ firstMeaningfulPaint: fmpTiming }, 'performance')
-        console.log('最终 FMP', fmpTiming)
         if (this.fmpCallback) {
           this.fmpCallback({
             tp,
@@ -269,12 +274,12 @@ class FMPTiming {
         if (s.st)
           dpss.push(s)
       }
-      return this.calcaulteScore($node, dpss)
+      return this.calculateScore($node, dpss)
     }
     return {}
   }
 
-  private calcaulteScore(
+  private calculateScore(
     $node: Element,
     dpss: Array<FMP.ICalScore>,
   ): FMP.ICalScore {
@@ -376,4 +381,3 @@ class FMPTiming {
   }
 }
 
-export default FMPTiming

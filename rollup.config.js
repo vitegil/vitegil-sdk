@@ -7,7 +7,6 @@ import livereload from 'rollup-plugin-livereload'
 
 export default [
   {
-    // 入口文件
     input: './src/core/index.ts',
     output: [
       {
@@ -21,20 +20,21 @@ export default [
       {
         file: path.resolve(__dirname, './dist/index.js'),
         format: 'umd',
-        name: 'tracker',
+        name: 'Tracker',
       },
     ],
     plugins: [
       ts(),
-      // 热更新 默认监听根文件夹
-      livereload(),
       // 本地服务器
       serve({
-        open: true, // 自动打开页面
+        open: true, // 在浏览器中启动
+        openPage: '/index.html', // 初始页面
+        contentBase: './', // 入口 html 文件位置
+        host: 'localhost',
         port: 8000,
-        openPage: '/index.html', // 打开的页面
-        contentBase: '',
       }),
+      // 热更新 默认监听根文件夹
+      livereload(),
     ],
   },
   {
