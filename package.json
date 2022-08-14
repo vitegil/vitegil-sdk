@@ -19,10 +19,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c -w",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "serve": "rollup -c -w"
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.1",
