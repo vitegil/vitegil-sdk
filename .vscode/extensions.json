@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "redjue.git-commit-plugin",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}
