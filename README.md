@@ -1,8 +1,8 @@
 # Vitegil SDK
 
 [![npm](https://img.shields.io/npm/v/vitegil-sdk?color=3c8cff)](https://www.npmjs.com/package/vitegil-sdk)
-<!-- [![node compatibility](https://img.shields.io/node/v/vitegil-sdk?color=)](https://nodejs.org/en/about/releases/)
-[![build status](https://github.com/vitegil/vitegil-sdk/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/vitegil/vitegil-sdk/actions/workflows/ci.yml) -->
+[![node compatibility](https://img.shields.io/node/v/vitegil-sdk?color=0F9D58)](https://nodejs.org/en/about/releases/)
+[![build status](https://github.com/vitegil/vitegil-sdk/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/vitegil/vitegil-sdk/actions/workflows/ci.yml)
 
 ## 工具使用
 
