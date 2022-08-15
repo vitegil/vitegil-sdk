@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@antfu/eslint-config': ^0.26.1
   '@rollup/plugin-node-resolve': ^13.3.0
+  '@types/crypto-js': ^4.1.1
   crypto-es: ^1.2.7
   eslint: ^8.22.0
   rollup: ^2.78.0
@@ -15,6 +16,7 @@ specifiers:
 devDependencies:
   '@antfu/eslint-config': 0.26.1_4rv7y5c6xz3vfxwhbrcxxi73bq
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.78.0
+  '@types/crypto-js': 4.1.1
   crypto-es: 1.2.7
   eslint: 8.22.0
   rollup: 2.78.0
@@ -222,6 +224,10 @@ packages:
       estree-walker: 1.0.1
       picomatch: 2.3.1
       rollup: 2.78.0
+    dev: true
+
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: true
 
   /@types/estree/0.0.39:
