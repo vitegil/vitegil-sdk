@@ -1,5 +1,5 @@
 import type { DefaultOptions, Options, reportTrackerData } from '../types/index'
-import { MouseEventList, TrackerConfig } from '../types/index'
+import { MouseEventList } from '../types/index'
 import { createHistoryEvent } from '../utils/pv'
 import { timing } from '../utils/timing'
 import FMPTiming from '../lib/fmp'

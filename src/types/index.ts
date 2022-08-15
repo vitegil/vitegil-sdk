@@ -25,10 +25,6 @@ export interface Options extends Partial<DefaultOptions> {
   requestUrl: string
 }
 
-export enum TrackerConfig {
-  requestUrl = 'https://koa-template-382-4-1312741325.sh.run.tcloudbase.com/api/test',
-}
-
 // remove 'mousemove' error
 export const MouseEventList: string[] = ['click', 'dblclick', 'contextmenu', 'mousedown', 'mouseup', 'mouseover', 'mouseout']
 
