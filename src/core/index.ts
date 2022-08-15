@@ -24,7 +24,6 @@ export default class Tracker {
     window.history.replaceState = createHistoryEvent('replaceState')
 
     return <DefaultOptions>{
-      sdkVersion: TrackerConfig.version,
       historyTracker: false,
       hashTracker: false,
       domTracker: false,
