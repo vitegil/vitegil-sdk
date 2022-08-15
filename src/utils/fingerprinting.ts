@@ -27,5 +27,7 @@ export default function fingerprinting() {
   // 通过sha256算法得出唯一的canvas指纹
   const fingerprint = CryptoES.SHA256(canvasImageData).toString()
 
+  console.log(`指纹 ${fingerprint}`)
+
   return fingerprint
 }
