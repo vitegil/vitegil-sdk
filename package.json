@@ -19,14 +19,17 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c -w",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.1",
-    "eslint": "^8.21.0",
-    "rollup": "^2.77.3",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "crypto-es": "^1.2.7",
+    "eslint": "^8.22.0",
+    "rollup": "^2.78.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^2.0.1",
