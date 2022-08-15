@@ -27,6 +27,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "@types/crypto-js": "^4.1.1",
     "crypto-es": "^1.2.7",
     "eslint": "^8.22.0",
     "rollup": "^2.78.0",
