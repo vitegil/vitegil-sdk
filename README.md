@@ -1,5 +1,7 @@
 # Vitegil SDK
 
+[![npm](https://img.shields.io/npm/v/vitegil-sdk?color=3c8cff)](https://www.npmjs.com/package/vitegil-sdk)
+
 ## 工具使用
 
 ### 安装
