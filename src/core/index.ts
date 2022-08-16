@@ -127,7 +127,7 @@ export default class Tracker {
   /**
    * 上报用户uuid(计算uv)
    */
-  private reportID(): void {
+  private reportId(): void {
     if (this.data.lazyReport) {
       this.saveTracker({
         event: 'uv-event',
@@ -345,7 +345,7 @@ export default class Tracker {
    */
   private installTracker(): void {
     if (this.data.uuid)
-      this.reportID()
+      this.reportId()
 
     if (this.data.historyTracker) {
       this.captureEvents(
