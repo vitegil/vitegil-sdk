@@ -3,6 +3,7 @@ import { MouseEventList } from '../types/index'
 import { createHistoryEvent } from '../utils/pv'
 import { timing } from '../utils/timing'
 import FMPTiming from '../lib/fmp'
+import { getDeviceData } from '../lib/device'
 import fingerprinting from '~/utils/fingerprinting'
 
 export default class Tracker {
@@ -30,6 +31,7 @@ export default class Tracker {
       jsError: false,
       lazyReport: false,
       timeTracker: false,
+      deviceTracker: false,
     }
   }
 
@@ -257,6 +259,27 @@ export default class Tracker {
   }
 
   /**
+   * 上报设备信息
+   */
+  private reportDeviceData(): void {
+    const data = getDeviceData()
+    // console.log(data)
+    if (this.data.lazyReport) {
+      this.saveTracker({
+        event: 'device',
+        targetKey: 'device',
+        data,
+      })
+      return
+    }
+    this.reportTracker({
+      event: 'device',
+      targetKey: 'device',
+      data,
+    })
+  }
+
+  /**
    * 页面关闭监听器
    */
   private unloadTracker(): void {
@@ -327,5 +350,8 @@ export default class Tracker {
 
     if (this.data.timeTracker && this.data.lazyReport)
       timing()
+
+    if (this.data.deviceTracker)
+      this.reportDeviceData()
   }
 }
