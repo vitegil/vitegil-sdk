@@ -12,14 +12,17 @@ export default [
       {
         file: path.resolve(__dirname, './dist/index.esm.js'),
         format: 'esm',
+        exports: 'auto',
       },
       {
         file: path.resolve(__dirname, './dist/index.cjs.js'),
         format: 'cjs',
+        exports: 'auto',
       },
       {
         file: path.resolve(__dirname, './dist/index.js'),
         format: 'umd',
+        exports: 'auto',
         name: 'Tracker',
       },
     ],
@@ -45,6 +48,7 @@ export default [
     output: {
       file: path.resolve(__dirname, './dist/index.d.ts'),
       format: 'es',
+      exports: 'auto',
     },
     plugins: [dts()],
   },

@@ -216,7 +216,7 @@ export const OsVersionMap: version = {
  * @screenHeight 屏幕高
  * @screenWidth 屏幕宽
  * @language 当前使用的语言-国家
- * @netWork 联网类型
+ * @network 联网类型
  * @orientation 横竖屏
  * @browser 浏览器类型
  * @browserInfo 浏览器信息
@@ -228,7 +228,7 @@ export interface DeviceData {
   screenHeight: number | undefined
   screenWidth: number | undefined
   language: string | undefined
-  netWork: string | undefined
+  network: string | undefined
   orientation: string | undefined
   browser: string | undefined
   browserInfo: string | undefined
