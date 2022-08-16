@@ -1,7 +1,7 @@
 import type { DefaultOptions, Options, reportTrackerData } from '../types/index'
 import { MouseEventList } from '../types/index'
 import { createHistoryEvent } from '../utils/pv'
-import { timing } from '../utils/timing'
+import { timing } from '../lib/timing'
 import FMPTiming from '../lib/fmp'
 import { getDeviceData } from '../lib/device'
 import fingerprinting from '~/utils/fingerprinting'
@@ -11,7 +11,8 @@ export default class Tracker {
 
   constructor(options: Options) {
     this.data = Object.assign(this.initDef(), options)
-    this.data.uuid = fingerprinting()
+    // this.data.uuid = fingerprinting()
+    this.setUserId(fingerprinting())
     this.installTracker()
   }
 
@@ -35,7 +36,16 @@ export default class Tracker {
     }
   }
 
-  // 用户自定义添加参数
+  /**
+   * 设置唯一标识
+   */
+  public setUserId <T extends DefaultOptions['uuid']>(id: T): void {
+    this.data.uuid = id
+  }
+
+  /**
+   * 用户自定义添加参数
+   */
   public setExtra<T extends DefaultOptions['extra']>(extra: T): void {
     this.data.extra = extra
   }

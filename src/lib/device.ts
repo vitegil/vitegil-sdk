@@ -180,6 +180,6 @@ export function getDeviceData() {
     return data
   }
   else {
-    console.log('not support')
+    console.error('not support current browser')
   }
 }
