@@ -7,6 +7,7 @@ import { getDeviceData } from '../lib/device'
 import { createHistoryEvent } from '../utils/pv'
 import fingerprinting from '../utils/fingerprinting'
 import { saveTrackerArray, saveTrackerData } from '../utils/save'
+import { reportStorageInfo, reportTrackerInfo } from '../utils/report'
 
 export default class Tracker {
   public data: Options
@@ -56,7 +57,8 @@ export default class Tracker {
    * @type reportTrackerData 上传数据类型
    */
   public sendTracker<T extends reportTrackerData>(data: T) {
-    this.reportTracker(data)
+    // this.reportTracker(data)
+    reportTrackerInfo(JSON.stringify(data), this.data.requestUrl)
   }
 
   /**
@@ -84,60 +86,42 @@ export default class Tracker {
   /**
    * 上报信息到后台
    */
-  private reportTracker<T>(data: T) {
-    const params = Object.assign(this.data, data, {
-      time: new Date().getTime(),
-    })
-    const headers = {
-      type: 'application/x-www-form-urlencoded',
-    }
-    const blob = new Blob([JSON.stringify(params)], headers)
+  // private reportTracker<T>(data: T) {
+  //   const params = Object.assign(this.data, data, {
+  //     time: new Date().getTime(),
+  //   })
+  //   const headers = {
+  //     type: 'application/x-www-form-urlencoded',
+  //   }
+  //   const blob = new Blob([JSON.stringify(params)], headers)
 
-    // 即使页面关闭了，sendBeacon也会完成请求（XMLHttpRequest不一定）
-    // 由于data参数不支持JSON格式，这里使用Blob传数据
-    navigator.sendBeacon(this.data.requestUrl, blob)
-  }
+  //   // 即使页面关闭了，sendBeacon也会完成请求（XMLHttpRequest不一定）
+  //   // 由于data参数不支持JSON格式，这里使用Blob传数据
+  //   navigator.sendBeacon(this.data.requestUrl, blob)
+  // }
 
   /**
    * 上报不带构造对象的信息
    */
-  private reportTrackerWithoutConstructor(data: string): void {
-    try {
-      const headers = {
-        type: 'application/x-www-form-urlencoded',
-      }
-      const blob = new Blob([data], headers)
-      navigator.sendBeacon(this.data.requestUrl, blob)
-    }
-    catch (error) {
-      console.error('sdk reportTrackerData error!', error)
-    }
-  }
+  // private reportTrackerWithoutConstructor(data: string): void {
+  //   try {
+  //     const headers = {
+  //       type: 'application/x-www-form-urlencoded',
+  //     }
+  //     const blob = new Blob([data], headers)
+  //     navigator.sendBeacon(this.data.requestUrl, blob)
+  //   }
+  //   catch (error) {
+  //     console.error('sdk reportTrackerData error!', error)
+  //   }
+  // }
 
   /**
    * 关闭页面前，上报所有信息到后台
    */
   private reportTrackerArray(): void {
-    const userData = localStorage.getItem('userInfo') || undefined
-    if (userData) {
-      this.reportTrackerWithoutConstructor(userData)
-      localStorage.removeItem('userInfo')
-    }
-    const trackerData = localStorage.getItem('tracker') || undefined
-    if (trackerData) {
-      this.reportTrackerWithoutConstructor(trackerData)
-      localStorage.removeItem('tracker')
-    }
-    const timingData = localStorage.getItem('timing') || undefined
-    if (timingData) {
-      this.reportTrackerWithoutConstructor(timingData)
-      localStorage.removeItem('timing')
-    }
-    const performaceData = localStorage.getItem('performace') || undefined
-    if (performaceData) {
-      this.reportTrackerWithoutConstructor(performaceData)
-      localStorage.removeItem('performace')
-    }
+    reportStorageInfo(this.data.requestUrl)
+    localStorage.clear()
   }
 
   /**
@@ -152,7 +136,7 @@ export default class Tracker {
       }, 'useruv', true)
       return
     }
-    this.reportTracker({
+    this.sendTracker({
       event: 'uv-event',
       targetKey: 'uv-event',
       data: this.data.uuid,
@@ -179,7 +163,7 @@ export default class Tracker {
             })
             return
           }
-          this.reportTracker({
+          this.sendTracker({
             event: `${event}-event`,
             targetKey: `${event}-event`,
             clickData: {
@@ -220,7 +204,7 @@ export default class Tracker {
         })
         return
       }
-      this.reportTracker({
+      this.sendTracker({
         event: 'js-error',
         targetKey: 'js-error',
         data: {
@@ -284,7 +268,7 @@ export default class Tracker {
           })
           return
         }
-        this.reportTracker({
+        this.sendTracker({
           event: 'promise-error',
           targetKey: 'promise-error',
           data: {
@@ -310,7 +294,7 @@ export default class Tracker {
       }, 'device', true)
       return
     }
-    this.reportTracker({
+    this.sendTracker({
       event: 'device',
       targetKey: 'device',
       data,
@@ -347,7 +331,7 @@ export default class Tracker {
           })
           return
         }
-        this.reportTracker({
+        this.sendTracker({
           event,
           targetKey,
           data,
