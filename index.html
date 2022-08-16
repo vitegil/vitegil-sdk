@@ -14,7 +14,7 @@
   <button id="tracker-history">history</button>
 
   <script>
-    // eslint-disable-next-line no-new, no-undef
+    // eslint-disable-next-line no-undef
     new Tracker({
       requestUrl: 'https://koa-template-382-4-1312741325.sh.run.tcloudbase.com/api/test',
       historyTracker: true,
@@ -22,7 +22,7 @@
       jsError: true,
       lazyReport: true,
       timeTracker: true,
-      deviceTracker: true
+      deviceTracker: true,
     })
     const btn = document.querySelector('#tracker-history')
     btn.addEventListener('click', () => {
