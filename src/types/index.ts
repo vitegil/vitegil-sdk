@@ -4,7 +4,6 @@
  * @historyTracker history上报
  * @hashTracker hash上报
  * @domTracker 携带 Tracker-key 点击事件上报
- * @sdkVersion sdk版本
  * @extra 用户自定义参数
  * @jsError js 和 promise 报错异常上报
  * @deviceTracker 设备信息
@@ -16,7 +15,6 @@ export interface DefaultOptions {
   historyTracker: boolean
   hashTracker: boolean
   domTracker: boolean
-  sdkVersion: string | number
   extra: Record<string, any> | undefined
   jsError: boolean
   lazyReport: boolean | undefined
@@ -27,11 +25,6 @@ export interface DefaultOptions {
 // requestUrl是Options必传的参数
 export interface Options extends Partial<DefaultOptions> {
   requestUrl: string
-}
-
-export enum TrackerConfig {
-  version = '1.0.0',
-  requestUrl = 'https://koa-template-382-4-1312741325.sh.run.tcloudbase.com/api/test',
 }
 
 // remove 'mousemove' error

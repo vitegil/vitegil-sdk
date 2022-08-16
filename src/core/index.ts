@@ -1,15 +1,17 @@
 import type { DefaultOptions, Options, reportTrackerData } from '../types/index'
-import { MouseEventList, TrackerConfig } from '../types/index'
+import { MouseEventList } from '../types/index'
 import { createHistoryEvent } from '../utils/pv'
 import { timing } from '../utils/timing'
 import FMPTiming from '../lib/fmp'
 import { getDeviceData } from "../lib/device";
+import fingerprinting from '~/utils/fingerprinting'
 
 export default class Tracker {
   public data: Options
 
   constructor(options: Options) {
     this.data = Object.assign(this.initDef(), options)
+    this.data.uuid = fingerprinting()
     this.installTracker()
   }
 
@@ -23,7 +25,6 @@ export default class Tracker {
     window.history.replaceState = createHistoryEvent('replaceState')
 
     return <DefaultOptions>{
-      sdkVersion: TrackerConfig.version,
       historyTracker: false,
       hashTracker: false,
       domTracker: false,
@@ -32,11 +33,6 @@ export default class Tracker {
       timeTracker: false,
       deviceTracker: false,
     }
-  }
-
-  // 用户自定义添加id
-  public setUserId<T extends DefaultOptions['uuid']>(id: T): void {
-    this.data.uuid = id
   }
 
   // 用户自定义添加参数
@@ -50,6 +46,23 @@ export default class Tracker {
    */
   public sendTracker<T extends reportTrackerData>(data: T) {
     this.reportTracker(data)
+  }
+
+  private saveUserInfo<T extends reportTrackerData>(data: T): void {
+    const userData = localStorage.getItem('userInfo') || undefined
+    if (userData) {
+      try {
+        let arr: reportTrackerData[] = JSON.parse(userData)
+        arr = [...arr, data]
+        localStorage.setItem('userInfo', JSON.stringify(arr))
+      }
+      catch (error) {
+        console.error('sdk saveUserInfo error!', error)
+      }
+    }
+    else {
+      localStorage.setItem('userInfo', JSON.stringify([data]))
+    }
   }
 
   private saveTracker<T extends reportTrackerData>(data: T): void {
@@ -73,7 +86,9 @@ export default class Tracker {
    * 上报信息到后台
    */
   private reportTracker<T>(data: T) {
-    const params = Object.assign(this.data, data, { time: new Date().getTime() })
+    const params = Object.assign(this.data, data, {
+      time: new Date().getTime(),
+    })
     const headers = {
       type: 'application/x-www-form-urlencoded',
     }
@@ -104,6 +119,11 @@ export default class Tracker {
    * 关闭页面前，上报所有信息到后台
    */
   private reportTrackerArray(): void {
+    const userData = localStorage.getItem('userInfo') || undefined
+    if (userData) {
+      this.reportTrackerWithoutConstructor(userData)
+      localStorage.removeItem('userInfo')
+    }
     const trackerData = localStorage.getItem('tracker') || undefined
     if (trackerData) {
       this.reportTrackerWithoutConstructor(trackerData)
@@ -114,6 +134,25 @@ export default class Tracker {
       this.reportTrackerWithoutConstructor(timingData)
       localStorage.removeItem('timing')
     }
+  }
+
+  /**
+   * 上报用户uuid
+   */
+  private reportID(): void {
+    if (this.data.lazyReport) {
+      this.saveUserInfo({
+        event: 'uuid',
+        targetKey: 'uuid',
+        data: this.data.uuid,
+      })
+      return
+    }
+    this.reportTracker({
+      event: 'uuid',
+      targetKey: 'uuid',
+      data: this.data.uuid,
+    })
   }
 
   /**
@@ -255,7 +294,11 @@ export default class Tracker {
    * @param targetKey 后台枚举值
    * @param data 其他数据
    */
-  private captureEvents<T>(mouseEventList: string[], targetKey: string, data?: T): void {
+  private captureEvents<T>(
+    mouseEventList: string[],
+    targetKey: string,
+    data?: T,
+  ): void {
     mouseEventList.forEach((event) => {
       window.addEventListener(event, () => {
         if (this.data.lazyReport) {
@@ -283,8 +326,15 @@ export default class Tracker {
     // eslint-disable-next-line no-new
     new FMPTiming()
 
-    if (this.data.historyTracker)
-      this.captureEvents(['pushState', 'replaceState', 'popstate'], 'history-pv')
+    if (this.data.uuid)
+      this.reportID()
+
+    if (this.data.historyTracker) {
+      this.captureEvents(
+        ['pushState', 'replaceState', 'popstate'],
+        'history-pv',
+      )
+    }
 
     if (this.data.hashTracker)
       this.captureEvents(['hashchange'], 'hash-pv')
