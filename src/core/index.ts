@@ -133,7 +133,7 @@ export default class Tracker {
         event: 'uv-event',
         targetKey: 'uv-event',
         data: this.data.uuid,
-      }, 'useruv', true)
+      }, 'userid', true)
       return
     }
     this.sendTracker({
@@ -189,7 +189,7 @@ export default class Tracker {
    */
   private jsErrorEvent(): void {
     window.addEventListener('error', (e) => {
-      if (this.isResourseError(e))
+      if (this.isResourceError(e))
         return
       if (this.data.lazyReport) {
         this.saveTracker({
@@ -222,7 +222,7 @@ export default class Tracker {
    * @param event 事件对象
    * @returns boolean 是否是资源错误
    */
-  private isResourseError(event: ErrorEvent): boolean {
+  private isResourceError(event: ErrorEvent): boolean {
     const target = event.target || event.srcElement
     const isElementTarget = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement
     if (!isElementTarget)
