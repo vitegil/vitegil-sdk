@@ -153,7 +153,6 @@ export default class FMPTiming {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         const resultEls: FMP.Els = this.filterResult(tp.els)
-        console.log('最终节点集合', tp, resultEls)
         const fmpTiming: number = this.getFmpTime(resultEls)
         saveToStorage({ firstMeaningfulPaint: fmpTiming }, 'performance')
 

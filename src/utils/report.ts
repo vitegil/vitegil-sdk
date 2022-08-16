@@ -29,7 +29,7 @@ export const reportStorageInfo = (url: string) => {
   const time = localStorage.getItem('timing') || undefined
   time && reportData.push(time)
 
-  const uv = localStorage.getItem('useruv') || undefined
+  const uv = localStorage.getItem('userid') || undefined
   uv && reportData.push(uv)
 
   const device = localStorage.getItem('device') || undefined
