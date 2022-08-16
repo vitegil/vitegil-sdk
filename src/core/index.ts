@@ -156,7 +156,7 @@ export default class Tracker {
             this.saveTracker({
               event: `${event}-event`,
               targetKey: `${event}-event`,
-              clickData: {
+              data: {
                 x: (e as MouseEvent).clientX,
                 y: (e as MouseEvent).clientY,
               },
@@ -166,7 +166,7 @@ export default class Tracker {
           this.sendTracker({
             event: `${event}-event`,
             targetKey: `${event}-event`,
-            clickData: {
+            data: {
               x: (e as MouseEvent).clientX,
               y: (e as MouseEvent).clientY,
             },
