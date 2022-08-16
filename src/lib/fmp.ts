@@ -4,6 +4,7 @@
 * blog here:
 * https://caelumtian.github.io/
 */
+import { saveToStorage } from '../utils/save'
 
 const Utils = {
   getStyle(element: any, attr: any) {
@@ -155,7 +156,7 @@ export default class FMPTiming {
         const resultEls: FMP.Els = this.filterResult(tp.els)
         console.log('最终节点集合', tp, resultEls)
         const fmpTiming: number = this.getFmpTime(resultEls)
-        console.log('最终 FMP', fmpTiming)
+        saveToStorage({ firstMeaningfulPaint: fmpTiming }, 'performance')
         if (this.fmpCallback) {
           this.fmpCallback({
             tp,

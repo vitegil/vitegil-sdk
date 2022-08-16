@@ -1,6 +1,6 @@
 import CryptoES from 'crypto-es'
 
-export default function fingerprinting() {
+export default function fingerprinting(): string {
   // 构造离屏canvas对象，二维渲染上下文
   const offscreenCanvas = document.createElement('canvas')
   const ctx = offscreenCanvas.getContext('2d')!
@@ -25,7 +25,7 @@ export default function fingerprinting() {
   const canvasImageData = offscreenCanvas.toDataURL()
 
   // 通过sha256算法得出唯一的canvas指纹
-  const fingerprint = CryptoES.SHA256(canvasImageData).toString()
+  const fingerprint: string = CryptoES.SHA256(canvasImageData).toString()
 
   console.log(`指纹 ${fingerprint}`)
 

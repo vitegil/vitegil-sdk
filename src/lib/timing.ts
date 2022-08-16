@@ -1,7 +1,7 @@
 import type { exportPerformanceData, exportTimingData } from '../types/timing'
 import { TimeConfig } from '../types/timing'
-import load from './load'
-import { saveToStorage } from './save'
+import load from '../utils/load'
+import { saveToStorage } from '../utils/save'
 
 /**
  * 储存页面加载的数据
