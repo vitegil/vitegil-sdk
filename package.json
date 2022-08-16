@@ -1,16 +1,21 @@
 {
-  "name": "snq-tracker",
-  "version": "1.0.3",
-  "description": "An easy web monitor tool based on rollup",
-  "author": "SaraiNoQ",
-  "license": "ISC",
+  "name": "vitegil-sdk",
+  "type": "module",
+  "version": "1.0.0",
+  "packageManager": "pnpm@7.9.0",
+  "description": "Vitegil tracker SDK for frontend monitoring, built with rollup",
+  "homepage": "https://github.com/vitegil/vitegil-sdk",
   "keywords": [
+    "error",
+    "frontend",
+    "monitoring",
+    "performance",
     "rollup",
-    "web",
-    "monitor",
+    "typescript",
     "tool",
-    "埋点",
-    "tracker"
+    "tracker",
+    "web",
+    "埋点"
   ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -18,15 +23,22 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": "^14.18.0 || >=16.0.0"
+  },
   "scripts": {
-    "build": "rollup -c -w",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.26.1",
-    "eslint": "^8.21.0",
-    "rollup": "^2.77.3",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "crypto-es": "^1.2.7",
+    "eslint": "^8.22.0",
+    "pnpm": "^7.9.0",
+    "rollup": "^2.78.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^2.0.1",

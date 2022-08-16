@@ -1,0 +1,17 @@
+{
+  // Editor
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": false, // this stops Prettier from auto fixing on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true // this allows ESLint to auto fix on save
+  },
+  // Extension configs
+  "cSpell.words": [
+    "antfu",
+    "pnpm",
+    "ttfb",
+    "vitegil"
+  ],
+  "GitCommitPlugin.ShowEmoji": false,
+  "GitCommitPlugin.MaxSubjectWords": 50
+}

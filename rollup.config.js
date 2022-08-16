@@ -1,9 +1,9 @@
 import path from 'path'
 import ts from 'rollup-plugin-typescript2'
 import dts from 'rollup-plugin-dts'
-
 import serve from 'rollup-plugin-serve'
 import livereload from 'rollup-plugin-livereload'
+import nodeResolve from '@rollup/plugin-node-resolve'
 
 export default [
   {
@@ -25,6 +25,8 @@ export default [
     ],
     plugins: [
       ts(),
+      // 定位和打包node_modules中的第三方库
+      nodeResolve(),
       // 本地服务器
       serve({
         open: true, // 在浏览器中启动
