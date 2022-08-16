@@ -72,4 +72,5 @@ export interface PerformanceEventData {
   event: eventType.performance
   targetKey: string
   data: PerformanceData
+  firstMeaningfulPaint?: string
 }
