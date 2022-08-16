@@ -27,7 +27,8 @@ mounted () {
     domTracker: true,
     jsError: true,
     lazyReport: true,
-    timeTracker: true
+    timeTracker: true,
+    deviceTracker: true,
   })
 }
 ```
@@ -39,7 +40,7 @@ mounted () {
 `timeTracker` 属性设置为 `true`，同时开启 `lazyReport`，在页面关闭前会自动将页面加载时间返回。
 
 > 注意
-> 计算页面加载时间至少需要 2.5 秒，若用户在计算工程中关闭页面，则不能获得响应数据。
+> 计算页面加载时间至少需要 2.5 秒，若用户在计算过程中关闭页面，则不能获得响应数据。
 
 ## 项目开发
 
