@@ -65,7 +65,6 @@ export default class FMPTiming {
   constructor(fmpCallback?: (res: any) => void) {
     if (fmpCallback)
       this.fmpCallback = fmpCallback
-
     this.initObserver()
   }
 
@@ -157,6 +156,7 @@ export default class FMPTiming {
         console.log('最终节点集合', tp, resultEls)
         const fmpTiming: number = this.getFmpTime(resultEls)
         saveToStorage({ firstMeaningfulPaint: fmpTiming }, 'performance')
+
         if (this.fmpCallback) {
           this.fmpCallback({
             tp,

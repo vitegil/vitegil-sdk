@@ -344,9 +344,6 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
-    // 获取页面FMP
-    new FMPTiming()
-
     if (this.data.uuid)
       this.reportID()
 
@@ -369,8 +366,11 @@ export default class Tracker {
     if (this.data.lazyReport)
       this.unloadTracker()
 
-    if (this.data.timeTracker && this.data.lazyReport)
+    if (this.data.timeTracker && this.data.lazyReport) {
+      // 获取页面FMP
+      new FMPTiming()
       timing()
+    }
 
     if (this.data.deviceTracker)
       this.reportDeviceData()
