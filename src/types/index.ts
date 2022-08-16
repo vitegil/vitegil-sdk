@@ -7,6 +7,7 @@
  * @sdkVersion sdk版本
  * @extra 用户自定义参数
  * @jsError js 和 promise 报错异常上报
+ * @deviceTracker 设备信息
  * @lazyReport 懒上报
  */
 export interface DefaultOptions {
@@ -20,6 +21,7 @@ export interface DefaultOptions {
   jsError: boolean
   lazyReport: boolean | undefined
   timeTracker: boolean
+  deviceTracker: boolean | undefined
 }
 
 // requestUrl是Options必传的参数
