@@ -3,7 +3,7 @@ import { MouseEventList } from '../types/index'
 import { createHistoryEvent } from '../utils/pv'
 import { timing } from '../utils/timing'
 import FMPTiming from '../lib/fmp'
-import { getDeviceData } from "../lib/device";
+import { getDeviceData } from '../lib/device'
 import fingerprinting from '~/utils/fingerprinting'
 
 export default class Tracker {
@@ -268,14 +268,14 @@ export default class Tracker {
       this.saveTracker({
         event: 'device',
         targetKey: 'device',
-        data
+        data,
       })
       return
     }
     this.reportTracker({
       event: 'device',
       targetKey: 'device',
-      data
+      data,
     })
   }
 
