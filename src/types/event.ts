@@ -2,7 +2,9 @@ export enum eventType {
   jsError = 'js-error',
   promiseError = 'promise-error',
   resourceError = 'resource-error',
-  domEvent = 'dom-event',
+  clickEvent = 'click-event',
+  uvEvent = 'uv-event',
+  deviceEvent = 'device-event',
   timing = 'timing',
   performance = 'performance',
 }

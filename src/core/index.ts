@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { DefaultOptions, Options, reportTrackerData } from '../types/index'
 import { MouseEventList } from '../types/index'
-import { createHistoryEvent } from '../utils/pv'
 import { timing } from '../lib/timing'
 import FMPTiming from '../lib/fmp'
 import { getDeviceData } from '../lib/device'
-import fingerprinting from '~/utils/fingerprinting'
+import { createHistoryEvent } from '../utils/pv'
+import fingerprinting from '../utils/fingerprinting'
+import { saveTrackerArray, saveTrackerData } from '../utils/save'
 
 export default class Tracker {
   public data: Options
 
   constructor(options: Options) {
     this.data = Object.assign(this.initDef(), options)
-    // this.data.uuid = fingerprinting()
     this.setUserId(fingerprinting())
     this.installTracker()
   }
@@ -59,37 +59,25 @@ export default class Tracker {
     this.reportTracker(data)
   }
 
-  private saveUserInfo<T extends reportTrackerData>(data: T): void {
-    const userData = localStorage.getItem('userInfo') || undefined
-    if (userData) {
-      try {
-        let arr: reportTrackerData[] = JSON.parse(userData)
-        arr = [...arr, data]
-        localStorage.setItem('userInfo', JSON.stringify(arr))
+  /**
+   * 保存事件信息到本地
+   * @param data 上报数据
+   * @param key key
+   */
+  private saveTracker<T extends reportTrackerData>(data: T, key?: string, notArr?: boolean): void {
+    if (key) {
+      if (notArr) {
+        saveTrackerData(data, key)
+        return
       }
-      catch (error) {
-        console.error('sdk saveUserInfo error!', error)
-      }
+      saveTrackerArray(data, key)
     }
     else {
-      localStorage.setItem('userInfo', JSON.stringify([data]))
-    }
-  }
-
-  private saveTracker<T extends reportTrackerData>(data: T): void {
-    const trackerData = localStorage.getItem('tracker') || undefined
-    if (trackerData) {
-      try {
-        let arr: reportTrackerData[] = JSON.parse(trackerData)
-        arr = [...arr, data]
-        localStorage.setItem('tracker', JSON.stringify(arr))
+      if (notArr) {
+        saveTrackerData(data, 'tracker')
+        return
       }
-      catch (error) {
-        console.error('sdk saveTracker error!', error)
-      }
-    }
-    else {
-      localStorage.setItem('tracker', JSON.stringify([data]))
+      saveTrackerArray(data, 'tracker')
     }
   }
 
@@ -153,20 +141,20 @@ export default class Tracker {
   }
 
   /**
-   * 上报用户uuid
+   * 上报用户uuid(计算uv)
    */
   private reportID(): void {
     if (this.data.lazyReport) {
-      this.saveUserInfo({
-        event: 'uuid',
-        targetKey: 'uuid',
+      this.saveTracker({
+        event: 'uv-event',
+        targetKey: 'uv-event',
         data: this.data.uuid,
-      })
+      }, 'useruv', true)
       return
     }
     this.reportTracker({
-      event: 'uuid',
-      targetKey: 'uuid',
+      event: 'uv-event',
+      targetKey: 'uv-event',
       data: this.data.uuid,
     })
   }
@@ -182,8 +170,8 @@ export default class Tracker {
         if (targetKey) {
           if (this.data.lazyReport) {
             this.saveTracker({
-              event,
-              targetKey,
+              event: `${event}-event`,
+              targetKey: `${event}-event`,
               clickData: {
                 x: (e as MouseEvent).clientX,
                 y: (e as MouseEvent).clientY,
@@ -192,8 +180,8 @@ export default class Tracker {
             return
           }
           this.reportTracker({
-            event,
-            targetKey,
+            event: `${event}-event`,
+            targetKey: `${event}-event`,
             clickData: {
               x: (e as MouseEvent).clientX,
               y: (e as MouseEvent).clientY,
@@ -314,13 +302,12 @@ export default class Tracker {
    */
   private reportDeviceData(): void {
     const data = getDeviceData()
-    // console.log(data)
     if (this.data.lazyReport) {
       this.saveTracker({
-        event: 'device',
-        targetKey: 'device',
+        event: 'device-event',
+        targetKey: 'device-event',
         data,
-      })
+      }, 'device', true)
       return
     }
     this.reportTracker({
@@ -340,7 +327,7 @@ export default class Tracker {
   }
 
   /**
-   * 监听器函数
+   * 监听器函数(监听页面跳转，计算pv)
    * @param mouseEventList 触发事件
    * @param targetKey 后台枚举值
    * @param data 其他数据
@@ -373,7 +360,7 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
-    // 打印页面FMP
+    // 获取页面FMP
     new FMPTiming()
 
     if (this.data.uuid)

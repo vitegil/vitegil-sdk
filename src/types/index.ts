@@ -27,8 +27,8 @@ export interface Options extends Partial<DefaultOptions> {
   requestUrl: string
 }
 
-// remove 'mousemove' error
-export const MouseEventList: string[] = ['click', 'dblclick', 'contextmenu', 'mousedown', 'mouseup', 'mouseover', 'mouseout']
+// remove 'mousemove', 'contextmenu', 'mousedown', 'mouseup', 'mouseover', 'mouseout' error
+export const MouseEventList: string[] = ['click', 'dblclick']
 
 // 上报必传参数
 export interface reportTrackerData {

@@ -12,7 +12,6 @@ async function saveTiming(firstContentfulPaint?: number, largestContentfulPaint?
     fetchStart,
     connectStart,
     connectEnd,
-    // requestStart,
     responseStart,
     responseEnd,
     domLoading,
