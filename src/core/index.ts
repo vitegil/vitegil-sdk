@@ -173,7 +173,7 @@ export default class Tracker {
    */
   private jsErrorEvent(): void {
     window.addEventListener('error', (e) => {
-      if (this.isResourseError(e))
+      if (this.isResourceError(e))
         return
       const errorData: errorData = {
         errorCol: e.colno,
@@ -209,7 +209,7 @@ export default class Tracker {
    * @param event 事件对象
    * @returns boolean 是否是资源错误
    */
-  private isResourseError(event: ErrorEvent): boolean {
+  private isResourceError(event: ErrorEvent): boolean {
     const target = event.target || event.srcElement
     const isElementTarget = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement
     if (!isElementTarget)
@@ -357,8 +357,6 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
-    // if (this.data.uuid)
-    //   this.saveUuid()
 
     if (this.data.historyTracker) {
       this.captureEvents(
