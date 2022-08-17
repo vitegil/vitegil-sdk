@@ -11,6 +11,7 @@
  */
 export interface DefaultOptions {
   uuid: string | undefined
+  appId: string | undefined
   requestUrl: string | undefined
   historyTracker: boolean
   hashTracker: boolean
@@ -35,4 +36,7 @@ export interface reportTrackerData {
   [key: string]: any
   event: string
   targetKey: string
+  userId: string | undefined
+  time: number | undefined
+  appId: string | undefined
 }
