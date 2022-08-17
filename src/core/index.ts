@@ -44,7 +44,7 @@ export default class Tracker {
   /**
    * 设置唯一标识
    */
-  public setUserId <T extends DefaultOptions['uuid']>(id: T): void {
+  public setUserId<T extends DefaultOptions['uuid']>(id: T): void {
     this.data.uuid = id
     localStorage.setItem('uuid', this.data.uuid as string)
   }
@@ -179,7 +179,7 @@ export default class Tracker {
         errorCol: e.colno,
         errorRow: e.lineno,
         errorInfo: e.message,
-        errorExtra: e.error.stack || JSON.stringify(e.error),
+        errorExtra: e.error.stack.split('\n').map((line: string) => line.trim()).join(' ') || JSON.stringify(e.error),
         errorUrl: e.filename || '<anonymous>',
       }
       if (this.data.lazyReport) {
@@ -218,7 +218,7 @@ export default class Tracker {
       errorCol: event.colno || 1,
       errorRow: event.lineno || 1,
       errorInfo: event.message || '',
-      errorExtra: event.error.stack || JSON.stringify(event.error),
+      errorExtra: event.error.stack.split('\n').map((line: string) => line.trim()).join(' ') || JSON.stringify(event.error),
       // @ts-expect-error
       errorUrl: target.src || target.href,
     }
@@ -357,7 +357,6 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
-
     if (this.data.historyTracker) {
       this.captureEvents(
         ['pushState', 'replaceState', 'popstate'],

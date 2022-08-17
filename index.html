@@ -14,7 +14,6 @@
   <button id="tracker-history">history</button>
 
   <script>
-    // eslint-disable-next-line no-undef
     new Tracker({
       requestUrl: 'https://koa-template-382-4-1312741325.sh.run.tcloudbase.com/api/test',
       historyTracker: true,
@@ -29,7 +28,6 @@
       history.replaceState('abc', '')
     })
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     new Promise((resolve, reject) => {
       console.log('我是第一个Promise中的log')
       const a = 'aaa'
@@ -48,13 +46,11 @@
         console.log('我是第三个then中的第一个回调的log，但是我不会执行，因为我上面出现了异常')
       }, (err) => {
         console.log('我是第三个then中的第二个回调的log，捕捉到错误：', err)
-        // eslint-disable-next-line no-undef
         reject()
       })
       .then(() => {
         console.log('我是第四个then中的log，我可以正常执行')
       })
-    // eslint-disable-next-line no-undef
     console.log(aaa)
   </script>
 </body>
