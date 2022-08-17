@@ -7,7 +7,7 @@
   <title>Document</title>
 </head>
 
-<body>
+<im>
   <script src="./dist/index.js"></script>
 
   <button data-tracker-key="btn">btn to add</button>
@@ -29,7 +29,33 @@
       history.replaceState('abc', '')
     })
 
-    // getDeviceData(window)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    new Promise((resolve, reject) => {
+      console.log('我是第一个Promise中的log')
+      const a = 'aaa'
+      resolve(a)
+    })
+      .then((a) => {
+        console.log('我是第一个then中的log，携带：', a)
+        // eslint-disable-next-line no-undef
+        resolve(a)
+      })
+      .then((a) => {
+        console.log('我是第二个then中的log，但是我出现了异常，携带：', a)
+        throw new Error('Error')
+      })
+      .then(() => {
+        console.log('我是第三个then中的第一个回调的log，但是我不会执行，因为我上面出现了异常')
+      }, (err) => {
+        console.log('我是第三个then中的第二个回调的log，捕捉到错误：', err)
+        // eslint-disable-next-line no-undef
+        reject()
+      })
+      .then(() => {
+        console.log('我是第四个then中的log，我可以正常执行')
+      })
+    // eslint-disable-next-line no-undef
+    console.log(aaa)
   </script>
 </body>
 

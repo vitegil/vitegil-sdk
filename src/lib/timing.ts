@@ -1,4 +1,4 @@
-import type { exportPerformanceData, exportTimingData } from '../types/timing'
+import type { exportTPData } from '../types/timing'
 import { TimeConfig } from '../types/timing'
 import load from '../utils/load'
 import { saveToStorage } from '../utils/save'
@@ -22,33 +22,34 @@ async function saveTiming(firstContentfulPaint?: number, largestContentfulPaint?
     domainLookupStart,
     domainLookupEnd,
   } = performance.timing
-  const exportData: exportTimingData = {
-    event: 'timing',
-    targetKey: 'timing',
-    data: {
-      connectTime: connectEnd - connectStart,
-      ttfbTime: responseStart - fetchStart,
-      responseTime: responseEnd - responseStart,
-      parseDOMTime: domInteractive - responseEnd,
-      domContentLoadedTime: domContentLoadedEventEnd - domContentLoadedEventStart, // domContentLoadedEventEnd – fetchStart
-      domContentLoaded: domContentLoadedEventEnd - fetchStart,
-      loadTime: loadEventStart - fetchStart,
-      parseDNSTime: domainLookupEnd - domainLookupStart,
-      domReadyTime: domContentLoadedEventStart - fetchStart,
-    },
+  const tData = {
+    connectTime: connectEnd - connectStart,
+    ttfbTime: responseStart - fetchStart,
+    responseTime: responseEnd - responseStart,
+    parseDOMTime: domInteractive - responseEnd,
+    domContentLoadedTime: domContentLoadedEventEnd - domContentLoadedEventStart, // domContentLoadedEventEnd – fetchStart
+    domContentLoaded: domContentLoadedEventEnd - fetchStart,
+    loadTime: loadEventStart - fetchStart,
+    parseDNSTime: domainLookupEnd - domainLookupStart,
+    domReadyTime: domContentLoadedEventStart - fetchStart,
   }
-  const exportPerformanceData: exportPerformanceData = {
+  const pData = {
+    firstPaint: Number(performance.getEntriesByName('first-paint')[0].startTime.toFixed(0)) || responseEnd - fetchStart,
+    timeToInteractive: domInteractive - domLoading,
+    firstContentfulPaint,
+    largestContentfulPaint,
+  }
+  const exportTPData: exportTPData = {
     event: 'performance',
     targetKey: 'performance',
-    data: {
-      firstPaint: Number(performance.getEntriesByName('first-paint')[0].startTime.toFixed(0)) || responseEnd - fetchStart,
-      timeToInteractive: domInteractive - domLoading,
-      firstContentfulPaint,
-      largestContentfulPaint,
-    },
+    userId: localStorage.getItem('uuid') || '',
+    time: new Date().getTime(),
+    appId: localStorage.getItem('appId') || '',
+    url: window.location.href,
+    ...tData,
+    ...pData,
   }
-  saveToStorage(exportData, TimeConfig.TimingKey)
-  saveToStorage(exportPerformanceData, TimeConfig.PerformanceKey)
+  saveToStorage(exportTPData, TimeConfig.PerformanceKey)
 }
 
 /**

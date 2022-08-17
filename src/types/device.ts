@@ -235,6 +235,15 @@ export interface DeviceData {
 }
 
 export interface exportDeviceData extends reportTrackerData {
-  data: DeviceData
+  deviceType: string | undefined
+  OS: string | undefined
+  OSVersion: string | undefined
+  screenHeight: number | undefined
+  screenWidth: number | undefined
+  language: string | undefined
+  netWork: string | undefined
+  orientation: string | undefined
+  browser: string | undefined
+  browserInfo: string | undefined
 }
 

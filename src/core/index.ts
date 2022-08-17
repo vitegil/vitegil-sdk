@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import type { DefaultOptions, Options, reportTrackerData } from '../types/index'
+import type { errorData, exportErrorData } from '../types/error'
+import { errorType } from '../types/error'
 import { MouseEventList } from '../types/index'
 import { timing } from '../lib/timing'
 import FMPTiming from '../lib/fmp'
@@ -15,6 +17,7 @@ export default class Tracker {
   constructor(options: Options) {
     this.data = Object.assign(this.initDef(), options)
     this.setUserId(fingerprinting())
+    this.setAppid(window.location.host)
     this.installTracker()
   }
 
@@ -43,6 +46,7 @@ export default class Tracker {
    */
   public setUserId <T extends DefaultOptions['uuid']>(id: T): void {
     this.data.uuid = id
+    localStorage.setItem('uuid', this.data.uuid as string)
   }
 
   /**
@@ -50,6 +54,14 @@ export default class Tracker {
    */
   public setExtra<T extends DefaultOptions['extra']>(extra: T): void {
     this.data.extra = extra
+  }
+
+  /**
+   * 设置监控应用的地址
+   */
+  public setAppid<T extends DefaultOptions['appId']>(appid: T): void {
+    this.data.appId = appid
+    localStorage.setItem('appId', this.data.appId as string)
   }
 
   /**
@@ -66,7 +78,7 @@ export default class Tracker {
    * @param data 上报数据
    * @param key key
    */
-  private saveTracker<T extends reportTrackerData>(data: T, key?: string, notArr?: boolean): void {
+  private saveTracker<T extends reportTrackerData >(data: T, key?: string, notArr?: boolean): void {
     if (key) {
       if (notArr) {
         saveTrackerData(data, key)
@@ -101,46 +113,11 @@ export default class Tracker {
   // }
 
   /**
-   * 上报不带构造对象的信息
-   */
-  // private reportTrackerWithoutConstructor(data: string): void {
-  //   try {
-  //     const headers = {
-  //       type: 'application/x-www-form-urlencoded',
-  //     }
-  //     const blob = new Blob([data], headers)
-  //     navigator.sendBeacon(this.data.requestUrl, blob)
-  //   }
-  //   catch (error) {
-  //     console.error('sdk reportTrackerData error!', error)
-  //   }
-  // }
-
-  /**
    * 关闭页面前，上报所有信息到后台
    */
   private reportTrackerArray(): void {
     reportStorageInfo(this.data.requestUrl)
     localStorage.clear()
-  }
-
-  /**
-   * 上报用户uuid(计算uv)
-   */
-  private reportID(): void {
-    if (this.data.lazyReport) {
-      this.saveTracker({
-        event: 'uv-event',
-        targetKey: 'uv-event',
-        data: this.data.uuid,
-      }, 'useruv', true)
-      return
-    }
-    this.sendTracker({
-      event: 'uv-event',
-      targetKey: 'uv-event',
-      data: this.data.uuid,
-    })
   }
 
   /**
@@ -150,26 +127,33 @@ export default class Tracker {
     MouseEventList.forEach((event) => {
       window.addEventListener(event, (e) => {
         const target = e.target as HTMLElement
-        const targetKey = target.getAttribute('data-tracker-key')
+        const targetKey = target.querySelector('body')
         if (targetKey) {
+          const domData: errorData = {
+            errorRow: (e as MouseEvent).clientX,
+            errorCol: (e as MouseEvent).clientY,
+            errorUrl: '',
+            errorExtra: '',
+            errorInfo: '',
+          }
           if (this.data.lazyReport) {
             this.saveTracker({
               event: `${event}-event`,
               targetKey: `${event}-event`,
-              data: {
-                x: (e as MouseEvent).clientX,
-                y: (e as MouseEvent).clientY,
-              },
+              userId: this.data.uuid as string,
+              time: new Date().getTime(),
+              appId: this.data.appId as string,
+              ...domData,
             })
             return
           }
           this.sendTracker({
             event: `${event}-event`,
             targetKey: `${event}-event`,
-            data: {
-              x: (e as MouseEvent).clientX,
-              y: (e as MouseEvent).clientY,
-            },
+            userId: this.data.uuid as string,
+            time: new Date().getTime(),
+            appId: this.data.appId as string,
+            ...domData,
           })
         }
       })
@@ -191,29 +175,32 @@ export default class Tracker {
     window.addEventListener('error', (e) => {
       if (this.isResourseError(e))
         return
+      const errorData: errorData = {
+        errorCol: e.colno,
+        errorRow: e.lineno,
+        errorInfo: e.message,
+        errorExtra: e.error.stack || JSON.stringify(e.error),
+        errorUrl: e.filename || '<anonymous>',
+      }
       if (this.data.lazyReport) {
         this.saveTracker({
-          event: 'js-error',
+          event: errorType.jsError,
           targetKey: 'js-error',
-          data: {
-            message: e.message,
-            filename: e.filename,
-            lineno: e.lineno,
-            colno: e.colno,
-          },
-        })
+          userId: this.data.uuid as string,
+          time: new Date().getTime(),
+          appId: this.data.appId as string,
+          ...errorData,
+        } as exportErrorData)
         return
       }
       this.sendTracker({
-        event: 'js-error',
+        event: errorType.jsError,
         targetKey: 'js-error',
-        data: {
-          message: e.message,
-          filename: e.filename,
-          lineno: e.lineno,
-          colno: e.colno,
-        },
-      })
+        userId: this.data.uuid as string,
+        time: new Date().getTime(),
+        appId: this.data.appId as string,
+        ...errorData,
+      } as exportErrorData)
     })
   }
 
@@ -227,24 +214,32 @@ export default class Tracker {
     const isElementTarget = target instanceof HTMLScriptElement || target instanceof HTMLLinkElement || target instanceof HTMLImageElement
     if (!isElementTarget)
       return false
+    const errorData: errorData = {
+      errorCol: event.colno || 1,
+      errorRow: event.lineno || 1,
+      errorInfo: event.message || '',
+      errorExtra: event.error.stack || JSON.stringify(event.error),
+      // @ts-expect-error
+      errorUrl: target.src || target.href,
+    }
     if (this.data.lazyReport) {
       this.saveTracker({
-        event: 'resource-error',
+        event: errorType.resourceError,
         targetKey: 'resource-error',
-        data: {
-          // @ts-expect-error
-          url: target.src || target.href,
-        },
+        userId: this.data.uuid as string,
+        time: new Date().getTime(),
+        appId: this.data.appId as string,
+        ...errorData,
       })
     }
     else {
       this.sendTracker({
-        event: 'resource-error',
+        event: errorType.resourceError,
         targetKey: 'resource-error',
-        data: {
-          // @ts-expect-error
-          url: target.src || target.href,
-        },
+        userId: this.data.uuid as string,
+        time: new Date().getTime(),
+        appId: this.data.appId as string,
+        ...errorData,
       })
     }
     return true
@@ -255,27 +250,33 @@ export default class Tracker {
    */
   private promiseErrorEvent(): void {
     window.addEventListener('unhandledrejection', (e) => {
-      e.promise.catch((err) => {
+      e.promise.catch(() => {
+        console.log('promise error', e)
+        const errorData: errorData = {
+          errorCol: e.reason.stack.split('\n')[1].split(':').slice(-1)[0],
+          errorRow: e.reason.stack.split('\n')[1].split(':').slice(-2, -1)[0],
+          errorInfo: e.reason.stack.split('\n')[0],
+          errorExtra: '',
+          errorUrl: e.reason.stack.split('\n')[1].trim(),
+        }
         if (this.data.lazyReport) {
           this.saveTracker({
-            event: 'promise-error',
+            event: errorType.promiseError,
             targetKey: 'promise-error',
-            data: {
-              message: e.reason.message,
-              filename: e.reason.stack.split('\n')[0],
-              err,
-            },
+            userId: this.data.uuid as string,
+            time: new Date().getTime(),
+            appId: this.data.appId as string,
+            ...errorData,
           })
           return
         }
         this.sendTracker({
-          event: 'promise-error',
+          event: errorType.promiseError,
           targetKey: 'promise-error',
-          data: {
-            message: e.reason.message,
-            filename: e.reason.stack.split('\n')[0],
-            err,
-          },
+          userId: this.data.uuid as string,
+          time: new Date().getTime(),
+          appId: this.data.appId as string,
+          ...errorData,
         })
       })
     })
@@ -290,14 +291,20 @@ export default class Tracker {
       this.saveTracker({
         event: 'device-event',
         targetKey: 'device-event',
-        data,
+        userId: this.data.uuid as string,
+        time: new Date().getTime(),
+        appId: this.data.appId as string,
+        ...data,
       }, 'device', true)
       return
     }
     this.sendTracker({
       event: 'device',
       targetKey: 'device',
-      data,
+      userId: this.data.uuid as string,
+      time: new Date().getTime(),
+      appId: this.data.appId as string,
+      ...data,
     })
   }
 
@@ -325,15 +332,21 @@ export default class Tracker {
       window.addEventListener(event, () => {
         if (this.data.lazyReport) {
           this.saveTracker({
-            event,
+            event: errorType.clickEvent,
             targetKey,
+            userId: this.data.uuid as string,
+            time: new Date().getTime(),
+            appId: this.data.appId as string,
             data,
           })
           return
         }
         this.sendTracker({
-          event,
+          event: errorType.clickEvent,
           targetKey,
+          userId: this.data.uuid as string,
+          time: new Date().getTime(),
+          appId: this.data.appId as string,
           data,
         })
       })
@@ -344,8 +357,8 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
-    if (this.data.uuid)
-      this.reportID()
+    // if (this.data.uuid)
+    //   this.saveUuid()
 
     if (this.data.historyTracker) {
       this.captureEvents(

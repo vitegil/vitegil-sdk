@@ -36,14 +36,26 @@ export interface PerformanceData {
 }
 
 export enum TimeConfig {
-  TimingKey = 'timing',
   PerformanceKey = 'performance',
 }
 
-export interface exportTimingData extends reportTrackerData {
-  data: TimingData
-}
-
-export interface exportPerformanceData extends reportTrackerData {
-  data: PerformanceData
+/**
+ * @url 页面URL(location.href)
+ */
+export interface exportTPData extends reportTrackerData {
+  url: string | undefined
+  connectTime: number | undefined
+  ttfbTime: number | undefined
+  responseTime: number | undefined
+  parseDOMTime: number | undefined
+  domContentLoadedTime: number | undefined
+  domContentLoaded: number | undefined
+  loadTime: number | undefined
+  parseDNSTime: number | undefined
+  domReadyTime: number | undefined
+  firstPaint: number | undefined
+  firstContentfulPaint: number | undefined
+  largestContentfulPaint: number | undefined
+  timeToInteractive: number | undefined
+  firstMeaningfulPaint?: number | undefined
 }
