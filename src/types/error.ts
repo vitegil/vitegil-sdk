@@ -5,6 +5,7 @@ export enum errorType {
   promiseError = 'promise-error',
   resourceError = 'resource-error',
   clickEvent = 'click-event',
+  pvEvent = 'pv-event',
 }
 
 /**
