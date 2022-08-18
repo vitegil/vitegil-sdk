@@ -116,6 +116,9 @@ export default class Tracker {
    * 关闭页面前，上报所有信息到后台
    */
   private reportTrackerArray(): void {
+    // 单独的pv上报
+    const pv = localStorage.getItem('pv')
+    pv && reportTrackerInfo(pv, this.data.requestUrl)
     reportStorageInfo(this.data.requestUrl)
     localStorage.clear()
   }
@@ -323,32 +326,27 @@ export default class Tracker {
    * @param targetKey 后台枚举值
    * @param data 其他数据
    */
-  private captureEvents<T>(
+  private captureEvents(
     mouseEventList: string[],
     targetKey: string,
-    data?: T,
   ): void {
     mouseEventList.forEach((event) => {
       window.addEventListener(event, () => {
-        if (this.data.lazyReport) {
-          this.saveTracker({
-            event: errorType.clickEvent,
-            targetKey,
-            userId: this.data.uuid as string,
-            time: new Date().getTime(),
-            appId: this.data.appId as string,
-            data,
-          })
-          return
-        }
-        this.sendTracker({
-          event: errorType.clickEvent,
+        this.saveTracker({
+          event: errorType.pvEvent,
           targetKey,
           userId: this.data.uuid as string,
           time: new Date().getTime(),
           appId: this.data.appId as string,
-          data,
-        })
+        }, 'pv')
+        // this.sendTracker({
+        //   event: errorType.pvEvent,
+        //   targetKey,
+        //   userId: this.data.uuid as string,
+        //   time: new Date().getTime(),
+        //   appId: this.data.appId as string,
+        //   data,
+        // })
       })
     })
   }
@@ -360,7 +358,7 @@ export default class Tracker {
     if (this.data.historyTracker) {
       this.captureEvents(
         ['pushState', 'replaceState', 'popstate'],
-        'history-pv',
+        'pv-event',
       )
     }
 

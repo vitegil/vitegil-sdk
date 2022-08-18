@@ -5,11 +5,11 @@
  */
 export const reportTrackerInfo = (data: string, url: string) => {
   try {
-    const headers = {
-      type: 'application/x-www-form-urlencoded',
-    }
-    const blob = new Blob([data], headers)
-    navigator.sendBeacon(url, blob)
+    // const headers = {
+    //   type: 'application/x-www-form-urlencoded',
+    // }
+    // const blob = new Blob(data, headers)
+    navigator.sendBeacon(url, data)
   }
   catch (error) {
     console.error('sdk reportTrackerData error!', error)
@@ -26,24 +26,21 @@ export const reportStorageInfo = (url: string) => {
   const perf = localStorage.getItem('performance') || undefined
   perf && reportData.push(perf)
 
-  const time = localStorage.getItem('timing') || undefined
-  time && reportData.push(time)
-
-  const uv = localStorage.getItem('userid') || undefined
-  uv && reportData.push(uv)
-
   const device = localStorage.getItem('device') || undefined
   device && reportData.push(device)
 
   const tracker = localStorage.getItem('tracker') || undefined
   tracker && reportData.push(tracker)
 
+  // const pv = localStorage.getItem('pv') || undefined
+  // pv && reportData.push(pv)
+
   try {
-    const headers = {
-      type: 'application/x-www-form-urlencoded',
-    }
-    const blob = new Blob(reportData, headers)
-    navigator.sendBeacon(url, blob)
+    // const headers = {
+    //   type: 'application/x-www-form-urlencoded',
+    // }
+    // const blob = new Blob(reportData, headers)
+    navigator.sendBeacon(url, JSON.stringify(reportData))
   }
   catch (error) {
     console.error('sdk report error!', error)
