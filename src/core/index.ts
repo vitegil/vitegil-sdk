@@ -357,9 +357,6 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
-    // if (this.data.uuid)
-    //   this.saveUuid()
-
     if (this.data.historyTracker) {
       this.captureEvents(
         ['pushState', 'replaceState', 'popstate'],
