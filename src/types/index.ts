@@ -39,6 +39,6 @@ export interface reportTrackerData {
   event: string
   targetKey: string
   userId: string | undefined
-  time: number | undefined
+  time: number | undefined | string
   appId: string | undefined
 }

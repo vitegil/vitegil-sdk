@@ -36,7 +36,7 @@ export default [
         openPage: '/index.html', // 初始页面
         contentBase: './', // 入口 html 文件位置
         host: 'localhost',
-        port: 8000,
+        port: 8123,
       }),
       // 热更新 默认监听根文件夹
       livereload(),

@@ -5,11 +5,11 @@
  */
 export const reportTrackerInfo = (data: string, url: string) => {
   try {
-    // const headers = {
-    //   type: 'application/x-www-form-urlencoded',
-    // }
-    // const blob = new Blob(data, headers)
-    navigator.sendBeacon(url, data)
+    const headers = {
+      type: 'application/json',
+    }
+    const blob = new Blob([data], headers)
+    navigator.sendBeacon(url, blob)
   }
   catch (error) {
     console.error('sdk reportTrackerData error!', error)
@@ -33,11 +33,10 @@ export const reportStorageInfo = (url: string) => {
   tracker && reportData.push(tracker)
 
   try {
-    // const headers = {
-    //   type: 'application/x-www-form-urlencoded',
-    // }
-    // const blob = new Blob(reportData, headers)
-    navigator.sendBeacon(url, JSON.stringify(reportData))
+    const blob = new Blob([reportData.toString()], {
+      type: 'application/json; charset=UTF-8',
+    })
+    return navigator.sendBeacon(url, blob)
   }
   catch (error) {
     console.error('sdk report error!', error)

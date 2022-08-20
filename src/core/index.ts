@@ -10,6 +10,7 @@ import { createHistoryEvent } from '../utils/pv'
 import fingerprinting from '../utils/fingerprinting'
 import { saveTrackerArray, saveTrackerData } from '../utils/save'
 import { reportStorageInfo, reportTrackerInfo } from '../utils/report'
+import { getDay } from '~/utils/day'
 
 export default class Tracker {
   public data: Options
@@ -126,7 +127,7 @@ export default class Tracker {
               event: `${event}-event`,
               targetKey: `${event}-event`,
               userId: this.data.uuid as string,
-              time: new Date().getTime(),
+              time: getDay(),
               appId: this.data.appId as string,
               ...domData,
             })
@@ -136,7 +137,7 @@ export default class Tracker {
             event: `${event}-event`,
             targetKey: `${event}-event`,
             userId: this.data.uuid as string,
-            time: new Date().getTime(),
+            time: getDay(),
             appId: this.data.appId as string,
             ...domData,
           }, `${this.data.requestUrl}/error/saveError`)
@@ -172,7 +173,7 @@ export default class Tracker {
           event: errorType.jsError,
           targetKey: 'js-error',
           userId: this.data.uuid as string,
-          time: new Date().getTime(),
+          time: getDay(),
           appId: this.data.appId as string,
           ...errorData,
         } as exportErrorData)
@@ -182,7 +183,7 @@ export default class Tracker {
         event: errorType.jsError,
         targetKey: 'js-error',
         userId: this.data.uuid as string,
-        time: new Date().getTime(),
+        time: getDay(),
         appId: this.data.appId as string,
         ...errorData,
       } as exportErrorData, `${this.data.requestUrl}/error/saveError`)
@@ -212,7 +213,7 @@ export default class Tracker {
         event: errorType.resourceError,
         targetKey: 'resource-error',
         userId: this.data.uuid as string,
-        time: new Date().getTime(),
+        time: getDay(),
         appId: this.data.appId as string,
         ...errorData,
       })
@@ -222,7 +223,7 @@ export default class Tracker {
         event: errorType.resourceError,
         targetKey: 'resource-error',
         userId: this.data.uuid as string,
-        time: new Date().getTime(),
+        time: getDay(),
         appId: this.data.appId as string,
         ...errorData,
       }, `${this.data.requestUrl}/error/saveError`)
@@ -249,7 +250,7 @@ export default class Tracker {
             event: errorType.promiseError,
             targetKey: 'promise-error',
             userId: this.data.uuid as string,
-            time: new Date().getTime(),
+            time: getDay(),
             appId: this.data.appId as string,
             ...errorData,
           })
@@ -259,7 +260,7 @@ export default class Tracker {
           event: errorType.promiseError,
           targetKey: 'promise-error',
           userId: this.data.uuid as string,
-          time: new Date().getTime(),
+          time: getDay(),
           appId: this.data.appId as string,
           ...errorData,
         }, `${this.data.requestUrl}/error/saveError`)
@@ -277,7 +278,7 @@ export default class Tracker {
         event: 'device-event',
         targetKey: 'device-event',
         userId: this.data.uuid as string,
-        time: new Date().getTime(),
+        time: getDay(),
         appId: this.data.appId as string,
         ...data,
       }, 'device', true)
@@ -287,7 +288,7 @@ export default class Tracker {
       event: 'device',
       targetKey: 'device',
       userId: this.data.uuid as string,
-      time: new Date().getTime(),
+      time: getDay(),
       appId: this.data.appId as string,
       ...data,
     }, `${this.data.requestUrl}/device/saveDevice`)
@@ -318,7 +319,7 @@ export default class Tracker {
           event: targetKey,
           targetKey: event,
           userId: this.data.uuid as string,
-          time: new Date().getTime(),
+          time: getDay(),
           appId: this.data.appId as string,
         }, 'pv')
       })
