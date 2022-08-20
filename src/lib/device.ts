@@ -101,15 +101,15 @@ function getOsVersion(os: string | undefined, u: string): string {
 }
 
 function getNetwork(navigator: any) {
-  const netWork = navigator && navigator.connection && navigator.connection.effectiveType
-  return netWork
+  const network = navigator && navigator.connection && navigator.connection.effectiveType
+  return network
 }
 
 function getLanguage(navigator: any) {
   return navigator.browserLanguage || navigator.language
 }
 
-function getOrientationStatu(_window: any) {
+function getOrientationStatus(_window: any) {
   let orientationStatus = ''
   const orientation = _window.matchMedia('(orientation: portrait)')
   if (orientation.matches)
@@ -171,12 +171,11 @@ export function getDeviceData() {
       screenHeight: _window.screen.height,
       screenWidth: _window.screen.width,
       language: getLanguage(navigator),
-      netWork: getNetwork(navigator),
-      orientation: getOrientationStatu(_window),
+      network: getNetwork(navigator),
+      orientation: getOrientationStatus(_window),
       browser: getValue(map, BrowserType),
       browserInfo: getBrowserInfo(map, ua),
     }
-    // console.log(data)
     return data
   }
   else {

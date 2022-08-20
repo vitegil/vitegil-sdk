@@ -25,7 +25,10 @@ export interface TimingData {
 
 /**
  * @firstPaint 页面首次渲染时间，即白屏时间
+ * @firstContentfulPaint 首次有内容渲染
+ * @largestContentfulPaint 最大可交互内容渲染时间
  * @timeToInteractive 首次可交互时间
+ * @firstMeaningfulPaint 首次有意义渲染
  */
 export interface PerformanceData {
   firstPaint: number | undefined

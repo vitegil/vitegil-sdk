@@ -1,13 +1,15 @@
 /**
  * @uuid 用户id
+ * @appId 监控应用的地址
  * @requestUrl 接口地址
  * @historyTracker history上报
  * @hashTracker hash上报
  * @domTracker 携带 Tracker-key 点击事件上报
  * @extra 用户自定义参数
  * @jsError js 和 promise 报错异常上报
- * @deviceTracker 设备信息
  * @lazyReport 懒上报
+ * @timeTracker time上报
+ * @deviceTracker 设备信息
  */
 export interface DefaultOptions {
   uuid: string | undefined
