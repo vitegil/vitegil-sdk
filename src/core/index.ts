@@ -68,9 +68,8 @@ export default class Tracker {
    * 手动上报信息
    * @type reportTrackerData 上传数据类型
    */
-  public sendTracker<T extends reportTrackerData>(data: T) {
-    // this.reportTracker(data)
-    reportTrackerInfo(JSON.stringify(data), this.data.requestUrl)
+  public sendTracker<T extends reportTrackerData>(data: T, url: string) {
+    reportTrackerInfo(JSON.stringify(data), url || this.data.requestUrl)
   }
 
   /**
@@ -96,29 +95,12 @@ export default class Tracker {
   }
 
   /**
-   * 上报信息到后台
-   */
-  // private reportTracker<T>(data: T) {
-  //   const params = Object.assign(this.data, data, {
-  //     time: new Date().getTime(),
-  //   })
-  //   const headers = {
-  //     type: 'application/x-www-form-urlencoded',
-  //   }
-  //   const blob = new Blob([JSON.stringify(params)], headers)
-
-  //   // 即使页面关闭了，sendBeacon也会完成请求（XMLHttpRequest不一定）
-  //   // 由于data参数不支持JSON格式，这里使用Blob传数据
-  //   navigator.sendBeacon(this.data.requestUrl, blob)
-  // }
-
-  /**
    * 关闭页面前，上报所有信息到后台
    */
   private reportTrackerArray(): void {
     // 单独的pv上报
     const pv = localStorage.getItem('pv')
-    pv && reportTrackerInfo(pv, this.data.requestUrl)
+    pv && reportTrackerInfo(pv, `${this.data.requestUrl}/pv/savePVs`)
     reportStorageInfo(this.data.requestUrl)
     localStorage.clear()
   }
@@ -157,7 +139,7 @@ export default class Tracker {
             time: new Date().getTime(),
             appId: this.data.appId as string,
             ...domData,
-          })
+          }, `${this.data.requestUrl}/error/saveError`)
         }
       })
     })
@@ -203,7 +185,7 @@ export default class Tracker {
         time: new Date().getTime(),
         appId: this.data.appId as string,
         ...errorData,
-      } as exportErrorData)
+      } as exportErrorData, `${this.data.requestUrl}/error/saveError`)
     })
   }
 
@@ -243,7 +225,7 @@ export default class Tracker {
         time: new Date().getTime(),
         appId: this.data.appId as string,
         ...errorData,
-      })
+      }, `${this.data.requestUrl}/error/saveError`)
     }
     return true
   }
@@ -280,7 +262,7 @@ export default class Tracker {
           time: new Date().getTime(),
           appId: this.data.appId as string,
           ...errorData,
-        })
+        }, `${this.data.requestUrl}/error/saveError`)
       })
     })
   }
@@ -308,7 +290,7 @@ export default class Tracker {
       time: new Date().getTime(),
       appId: this.data.appId as string,
       ...data,
-    })
+    }, `${this.data.requestUrl}/device/saveDevice`)
   }
 
   /**
@@ -333,20 +315,12 @@ export default class Tracker {
     mouseEventList.forEach((event) => {
       window.addEventListener(event, () => {
         this.saveTracker({
-          event: errorType.pvEvent,
-          targetKey,
+          event: targetKey,
+          targetKey: event,
           userId: this.data.uuid as string,
           time: new Date().getTime(),
           appId: this.data.appId as string,
         }, 'pv')
-        // this.sendTracker({
-        //   event: errorType.pvEvent,
-        //   targetKey,
-        //   userId: this.data.uuid as string,
-        //   time: new Date().getTime(),
-        //   appId: this.data.appId as string,
-        //   data,
-        // })
       })
     })
   }
@@ -358,7 +332,7 @@ export default class Tracker {
     if (this.data.historyTracker) {
       this.captureEvents(
         ['pushState', 'replaceState', 'popstate'],
-        'pv-event',
+        errorType.pvEvent,
       )
     }
 

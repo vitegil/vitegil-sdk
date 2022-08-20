@@ -32,9 +32,6 @@ export const reportStorageInfo = (url: string) => {
   const tracker = localStorage.getItem('tracker') || undefined
   tracker && reportData.push(tracker)
 
-  // const pv = localStorage.getItem('pv') || undefined
-  // pv && reportData.push(pv)
-
   try {
     // const headers = {
     //   type: 'application/x-www-form-urlencoded',
