@@ -1,7 +1,7 @@
 {
   "name": "vitegil-sdk",
   "type": "module",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "packageManager": "pnpm@7.9.3",
   "description": "Vitegil tracker SDK for frontend monitoring, built with rollup",
   "homepage": "https://github.com/vitegil/vitegil-sdk",
