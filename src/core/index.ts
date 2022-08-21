@@ -99,9 +99,6 @@ export default class Tracker {
    * 关闭页面前，上报所有信息到后台
    */
   private reportTrackerArray(): void {
-    // 单独的pv上报
-    const pv = localStorage.getItem('pv')
-    pv && reportTrackerInfo(pv, `${this.data.requestUrl}/pv/savePVs`)
     reportStorageInfo(this.data.requestUrl)
     localStorage.clear()
   }
@@ -299,7 +296,11 @@ export default class Tracker {
    */
   private unloadTracker(): void {
     window.addEventListener('beforeunload', () => {
-      this.reportTrackerArray()
+      // 单独的pv上报
+      const pv = localStorage.getItem('pv')
+      pv && reportTrackerInfo(pv, `${this.data.requestUrl}/pv/savePVs`)
+      if (this.data.lazyReport)
+        this.reportTrackerArray()
     })
   }
 
@@ -330,6 +331,9 @@ export default class Tracker {
    * 安装监听器
    */
   private installTracker(): void {
+    // 监控页面关闭
+    this.unloadTracker()
+
     if (this.data.historyTracker) {
       this.captureEvents(
         ['pushState', 'replaceState', 'popstate'],
@@ -345,9 +349,6 @@ export default class Tracker {
 
     if (this.data.jsError)
       this.jsError()
-
-    if (this.data.lazyReport)
-      this.unloadTracker()
 
     if (this.data.timeTracker && this.data.lazyReport) {
       // 获取页面FMP
