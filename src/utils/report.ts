@@ -43,7 +43,7 @@ export const reportStorageInfo = async (baseUrl: string) => {
     }
     if (tracker) {
       const blobTracker = new Blob([tracker], headers)
-      navigator.sendBeacon(`${baseUrl}/error/saveError`, blobTracker)
+      navigator.sendBeacon(`${baseUrl}/error/saveErrorTotal`, blobTracker)
     }
   }
   catch (error) {
