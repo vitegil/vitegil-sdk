@@ -1,7 +1,7 @@
 {
   "name": "vitegil-sdk",
   "type": "module",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "packageManager": "pnpm@7.9.3",
   "description": "Vitegil tracker SDK for frontend monitoring, built with rollup",
   "homepage": "https://github.com/vitegil/vitegil-sdk",
@@ -38,11 +38,11 @@
     "crypto-es": "^1.2.7",
     "eslint": "^8.22.0",
     "pnpm": "^7.9.3",
-    "rollup": "^2.78.0",
+    "rollup": "^2.78.1",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^2.0.1",
-    "rollup-plugin-typescript2": "^0.32.1",
+    "rollup-plugin-typescript2": "^0.33.0",
     "typescript": "^4.7.4"
   }
 }
