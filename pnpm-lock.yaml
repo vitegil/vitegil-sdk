@@ -10,7 +10,7 @@ specifiers:
   rollup-plugin-dts: ^4.2.2
   rollup-plugin-livereload: ^2.0.5
   rollup-plugin-serve: ^2.0.1
-  rollup-plugin-typescript2: ^0.33.0
+  rollup-plugin-typescript2: ^0.34.0
   typescript: ^4.7.4
 
 devDependencies:
@@ -23,7 +23,7 @@ devDependencies:
   rollup-plugin-dts: 4.2.2_accrhai6qopda76wnqb3pkewpq
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-serve: 2.0.1
-  rollup-plugin-typescript2: 0.33.0_accrhai6qopda76wnqb3pkewpq
+  rollup-plugin-typescript2: 0.34.0_accrhai6qopda76wnqb3pkewpq
   typescript: 4.7.4
 
 packages:
@@ -2184,8 +2184,8 @@ packages:
       opener: 1.5.2
     dev: true
 
-  /rollup-plugin-typescript2/0.33.0_accrhai6qopda76wnqb3pkewpq:
-    resolution: {integrity: sha512-7ZXoZeX93kNb4/ICzOi2AlperVV6cAsNz8THqrbz+KNvpn47P2F/nFdK/BGhkoOsOwuYDuY57vccdZZrcd8/dA==}
+  /rollup-plugin-typescript2/0.34.0_accrhai6qopda76wnqb3pkewpq:
+    resolution: {integrity: sha512-dGtOz2kL6nQVgfIOmnA4Xh+5cFrs3bdu4jja/ej7WKR92RzOOixsn71LY5ZFFmKe1R677nUh+k2++NiY3un2PQ==}
     peerDependencies:
       rollup: '>=1.26.3'
       typescript: '>=2.4.0'
