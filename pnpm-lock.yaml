@@ -5,7 +5,7 @@ specifiers:
   '@rollup/plugin-node-resolve': ^13.3.0
   crypto-es: ^1.2.7
   eslint: ^8.22.0
-  pnpm: ^7.9.3
+  pnpm: ^8.1.0
   rollup: ^2.78.1
   rollup-plugin-dts: ^4.2.2
   rollup-plugin-livereload: ^2.0.5
@@ -18,7 +18,7 @@ devDependencies:
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.78.1
   crypto-es: 1.2.7
   eslint: 8.22.0
-  pnpm: 7.9.3
+  pnpm: 8.1.0
   rollup: 2.78.1
   rollup-plugin-dts: 4.2.2_accrhai6qopda76wnqb3pkewpq
   rollup-plugin-livereload: 2.0.5
@@ -1940,9 +1940,9 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm/7.9.3:
-    resolution: {integrity: sha512-0hpAD1vtILw0i9gTN4ffagnScWMW9/avfZIKllBUd++fAvCss+hVgPPDd0HS9XcOT675gid4H9esGkbLdaFy+w==}
-    engines: {node: '>=14.6'}
+  /pnpm/8.1.0:
+    resolution: {integrity: sha512-e2H73wTRxmc5fWF/6QJqbuwU6O3NRVZC1G1WFXG8EqfN/+ZBu8XVHJZwPH6Xh0DxbEoZgw8/wy2utgCDwPu4Sg==}
+    engines: {node: '>=16.14'}
     hasBin: true
     dev: true
 
