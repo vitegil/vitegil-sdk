@@ -23,7 +23,7 @@ devDependencies:
   rollup-plugin-dts: 4.2.2_accrhai6qopda76wnqb3pkewpq
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-serve: 2.0.1
-  rollup-plugin-typescript2: 0.34.0_accrhai6qopda76wnqb3pkewpq
+  rollup-plugin-typescript2: 0.34.1_accrhai6qopda76wnqb3pkewpq
   typescript: 4.7.4
 
 packages:
@@ -2070,8 +2070,8 @@ packages:
       opener: 1.5.2
     dev: true
 
-  /rollup-plugin-typescript2/0.34.0_accrhai6qopda76wnqb3pkewpq:
-    resolution: {integrity: sha512-dGtOz2kL6nQVgfIOmnA4Xh+5cFrs3bdu4jja/ej7WKR92RzOOixsn71LY5ZFFmKe1R677nUh+k2++NiY3un2PQ==}
+  /rollup-plugin-typescript2/0.34.1_accrhai6qopda76wnqb3pkewpq:
+    resolution: {integrity: sha512-P4cHLtGikESmqi1CA+tdMDUv8WbQV48mzPYt77TSTOPJpERyZ9TXdDgjSDix8Fkqce6soYz3+fa4lrC93IEkcw==}
     peerDependencies:
       rollup: '>=1.26.3'
       typescript: '>=2.4.0'
@@ -2080,6 +2080,7 @@ packages:
       find-cache-dir: 3.3.2
       fs-extra: 10.1.0
       rollup: 2.78.1
+      semver: 7.3.7
       tslib: 2.4.0
       typescript: 4.7.4
     dev: true
