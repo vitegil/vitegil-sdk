@@ -22,7 +22,7 @@ devDependencies:
   rollup: 2.78.1
   rollup-plugin-dts: 4.2.2_accrhai6qopda76wnqb3pkewpq
   rollup-plugin-livereload: 2.0.5
-  rollup-plugin-serve: 2.0.1
+  rollup-plugin-serve: 2.0.2
   rollup-plugin-typescript2: 0.34.0_accrhai6qopda76wnqb3pkewpq
   typescript: 4.7.4
 
@@ -2063,8 +2063,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /rollup-plugin-serve/2.0.1:
-    resolution: {integrity: sha512-/9lnzylTMwbXNQUwWAO0DIxW145wl+rmikwFXgujLJ5N9bRfWcjP+qd1XM5wxSiw8ZlBAlFy/n2zRvzcG21bBw==}
+  /rollup-plugin-serve/2.0.2:
+    resolution: {integrity: sha512-ALqyTbPhlf7FZ5RzlbDvMYvbKuCHWginJkTo6dMsbgji/a78IbsXox+pC83HENdkTRz8OXrTj+aShp3+3ratpg==}
     dependencies:
       mime: 3.0.0
       opener: 1.5.2
